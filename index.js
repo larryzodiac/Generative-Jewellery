@@ -55,6 +55,7 @@ const bottomLeftFace = {
 
 // Holds new vertices
 const vertices = {};
+const newVertices = {};
 
 // ------------------------------------------------- //
 // Starting Vertices for 3D
@@ -183,6 +184,7 @@ const findEdgePoint = (f1,f2) => {
 
 // ------------------------------------------------- //
 // New vertices = avg of all facePoints & 2*(avg of all mid/edge points) + the original vertex
+// All surrounding the original vertex
 //   _ _ _ _ _ _ _ _ _ _
 //  |         |         |
 //  |    F    M    F    |
@@ -197,6 +199,8 @@ const findEdgePoint = (f1,f2) => {
 // ------------------------------------------------- //
 
 // POINTER HELL
-const newVertices = () => {
-
-}
+// const newVertices = () => {
+//   for (var i = 0; i < ; i++) {
+//
+//   }
+// }
