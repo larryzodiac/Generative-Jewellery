@@ -1,6 +1,47 @@
+
+/*
+  Universal stylesheet for exercise files.
+*/
+
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono:100,200');
+
+* {
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: #FFF;
+}
+
 body {
-  background-color: #000;
   margin: 0;
   padding: 0;
   overflow: hidden;
+}
+
+/* Position Text */
+
+.info {
+  position: absolute;
+  top: 2.5em;
+  left: 2.5em;
+  width: 500px;
+}
+
+/* Text */
+
+.sub-header {
+  margin-bottom: 0px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 100;
+  color: #FF0000;
+}
+
+header {
+  font-size: 2.5rem;
+  color: #FFF;
+}
+
+p {
+  font-size: 1.125rem;
+  font-weight: 200;
+  line-height: 1.8;
 }
