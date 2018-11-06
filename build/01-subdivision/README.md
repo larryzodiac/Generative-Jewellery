@@ -1,4 +1,6 @@
-# 01 ~ Subdivision
+# Build : 01 ~ Subdivision
+
+[Link to demo](https://larryzodiac.github.io/Generative-Jewellery/build/01-subdivision/index.html)
 
 The first steps in applying Catmull-Clark subdivision and Half-Edge data structure algorithms in Three.js
 
