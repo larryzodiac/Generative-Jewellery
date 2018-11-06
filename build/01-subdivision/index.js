@@ -34,8 +34,8 @@ const draw = () => {
   // THREE.CameraType(FOV,aspectRatio,nearClipPlane,farClipPlane);
 	camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,1000);
 	camera.position.x = 1;
-	camera.position.y = 2;
-	camera.position.z = 5;
+	camera.position.y = 1.5;
+	camera.position.z = 3.5;
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   // Add geometry in place of old/undefined geometry
