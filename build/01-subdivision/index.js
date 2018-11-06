@@ -48,6 +48,8 @@ const draw = () => {
 	document.getElementById('webgl').appendChild(renderer.domElement);
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enablePan = false;
+  controls.enableKeys = false;
 
   // Pass to implement our three needs.
   update(renderer, scene, camera, controls);
@@ -95,9 +97,9 @@ $(window).resize(function() {
 // Modern jQuery key detection.
 $(document).keydown(function(e) {
     switch(e.key) {
-        case 's': nextSubdivision(1);
+        case 'ArrowUp': nextSubdivision(1);
         break;
-        case 'd': nextSubdivision(-1)
+        case 'ArrowDown': nextSubdivision(-1)
         break;
         default: return; // exit this handler for other keys
     }
