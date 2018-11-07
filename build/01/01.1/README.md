@@ -1,6 +1,6 @@
 # Build : 01.1 - Box Geometry Subdivision
 
-[Link to demo](https://larryzodiac.github.io/Generative-Jewellery/build/01-subdivision/index.html)
+[Link to demo](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.1/index.html)
 
 The first steps in applying Catmull-Clark subdivision and Half-Edge data structure algorithms in Three.js
 
