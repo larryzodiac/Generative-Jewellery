@@ -17,62 +17,48 @@
  // ------------------------------------------------- //
 
 THREE.SubdivisionModifier = function ( subdivisions ) {
-
 	this.subdivisions = ( subdivisions === undefined ) ? 1 : subdivisions;
-
 };
 
 // ------------------------------------------------- //
 
 // Applies the "modify" pattern
 THREE.SubdivisionModifier.prototype.modify = function ( geometry ) {
-
 	if ( geometry.isBufferGeometry ) {
-
 		geometry = new THREE.Geometry().fromBufferGeometry( geometry );
-
 	} else {
-
 		geometry = geometry.clone();
-
 	}
-
+	// Used to remove duplicate vertices in vertex array.
+	// https://threejs.org/docs/#api/en/core/Geometry.fromBufferGeometry
 	geometry.mergeVertices();
-
 	var repeats = this.subdivisions;
-
 	while ( repeats -- > 0 ) {
-
+		// The big do-stuff function.
+		// The subdivide function.
 		this.smooth( geometry );
-
 	}
-
 	geometry.computeFaceNormals();
 	geometry.computeVertexNormals();
-
 	return geometry;
-
 };
 
 // ------------------------------------------------- //
-
+// Immediately-Invoked Function Expression (IIFE)
+// https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+// Also known as Self-Executing Anonymous Function.
 ( function () {
-
 	// Some constants
 	var WARNINGS = ! true; // Set to true for development
 	var ABC = [ 'a', 'b', 'c' ];
-
 	// ------------------------------------------------- //
-
 	function getEdge( a, b, map ) {
 		var vertexIndexA = Math.min( a, b );
 		var vertexIndexB = Math.max( a, b );
 		var key = vertexIndexA + "_" + vertexIndexB;
 		return map[ key ];
 	}
-
 	// ------------------------------------------------- //
-
 	function processEdge( a, b, vertices, map, face, metaVertices ) {
 		var vertexIndexA = Math.min( a, b );
 		var vertexIndexB = Math.max( a, b );
@@ -97,9 +83,7 @@ THREE.SubdivisionModifier.prototype.modify = function ( geometry ) {
 		metaVertices[ a ].edges.push( edge );
 		metaVertices[ b ].edges.push( edge );
 	}
-
 	// ------------------------------------------------- //
-
 	function generateLookups( vertices, faces, metaVertices, edges ) {
 		var i, il, face;
 		for ( i = 0, il = vertices.length; i < il; i ++ ) {
@@ -112,57 +96,49 @@ THREE.SubdivisionModifier.prototype.modify = function ( geometry ) {
 			processEdge( face.c, face.a, vertices, edges, face, metaVertices );
 		}
 	}
-
 	// ------------------------------------------------- //
-
 	function newFace( newFaces, a, b, c, materialIndex ) {
 		newFaces.push( new THREE.Face3( a, b, c, undefined, undefined, materialIndex ) );
 	}
-
 	function midpoint( a, b ) {
 		return ( Math.abs( b - a ) / 2 ) + Math.min( a, b );
 	}
-
 	function newUv( newUvs, a, b, c ) {
 		newUvs.push( [ a.clone(), b.clone(), c.clone() ] );
 	}
-
 	// ------------------------------------------------- //
 	// STEPS
 	// ------------------------------------------------- //
-
 	// Performs one iteration of Subdivision
-	THREE.SubdivisionModifier.prototype.smooth = function ( geometry ) {
+	THREE.SubdivisionModifier.prototype.smooth = function ( geometry ) { // Start of big function.
 
 		var tmp = new THREE.Vector3();
 		var oldVertices, oldFaces, oldUvs;
 		var newVertices, newFaces, newUVs = [];
 		var n, i, il, j, k;
 		var metaVertices, sourceEdges;
+
 		// new stuff.
 		var sourceEdges, newEdgeVertices, newSourceVertices;
 		oldVertices = geometry.vertices; // { x, y, z}
 		oldFaces = geometry.faces; // { a: oldVertex1, b: oldVertex2, c: oldVertex3 }
+		
 		oldUvs = geometry.faceVertexUvs[ 0 ];
 		var hasUvs = oldUvs !== undefined && oldUvs.length > 0;
-
 		// ------------------------------------------------- //
 	 	// Step 0: Preprocess Geometry to Generate edges Lookup
 	 	// ------------------------------------------------- //
-
 		metaVertices = new Array( oldVertices.length );
 		sourceEdges = {}; // Edge => { oldVertex1, oldVertex2, faces[]  }
 		generateLookups( oldVertices, oldFaces, metaVertices, sourceEdges );
-
 		// ------------------------------------------------- //
  	 	// Step 1.
 		// For each edge, create a new Edge Vertex, then position it.
  	 	// ------------------------------------------------- //
-
 		newEdgeVertices = [];
 		var other, currentEdge, newEdge, face;
 		var edgeVertexWeight, adjacentVertexWeight, connectedFaces;
-		for ( i in sourceEdges ) {
+		for ( i in sourceEdges ) { // Start for loop.
 			currentEdge = sourceEdges[ i ];
 			newEdge = new THREE.Vector3();
 			edgeVertexWeight = 3 / 8;
@@ -192,13 +168,11 @@ THREE.SubdivisionModifier.prototype.modify = function ( geometry ) {
 			currentEdge.newEdge = newEdgeVertices.length;
 			newEdgeVertices.push( newEdge );
 			// console.log(currentEdge, newEdge);
-		}
-
+		} // End for loop.
 		// ------------------------------------------------- //
  	 	// Step 2.
 		// Reposition each source vertices.
  	 	// ------------------------------------------------- //
-
 		var beta, sourceVertexWeight, connectingVertexWeight;
 		var connectingEdge, connectingEdges, oldVertex, newSourceVertex;
 		newSourceVertices = [];
@@ -241,13 +215,11 @@ THREE.SubdivisionModifier.prototype.modify = function ( geometry ) {
 			tmp.multiplyScalar( connectingVertexWeight );
 			newSourceVertex.add( tmp );
 			newSourceVertices.push( newSourceVertex );
-		}
-
+		} // End for loop.
 		// ------------------------------------------------- //
  	 	// Step 3.
 		// Generate Faces between source vertices + edge vertices.
  	 	// ------------------------------------------------- //
-
 		newVertices = newSourceVertices.concat( newEdgeVertices );
 		var sl = newSourceVertices.length, edge1, edge2, edge3;
 		newFaces = [];
@@ -280,11 +252,12 @@ THREE.SubdivisionModifier.prototype.modify = function ( geometry ) {
 				newUv( newUVs, x1, x4, x3 );
 				newUv( newUVs, x2, x5, x4 );
 			}
-		}
+		} // End for loop
 		// Overwrite old arrays
 		geometry.vertices = newVertices;
 		geometry.faces = newFaces;
 		if ( hasUvs ) geometry.faceVertexUvs[ 0 ] = newUVs;
 		// console.log('done');
-	};
-} )();
+	} // End of big function.
+}	// End of parent function.
+)();

@@ -55,6 +55,10 @@ const draw = () => {
   // Pass to implement our three needs.
   update(renderer, scene, camera, controls);
 
+  // So I can view the mesh propreties.
+  console.log(`Scene children array[0] geometry':`);
+  console.log(scene.children[0].geometry);
+
   // Return scene so we may access propreties.
 	return scene;
 }
@@ -123,9 +127,10 @@ const nextSubdivision = (s) => {
 
 // Invoke subdivision modifier.
 const subdivide = () => {
-  // Is the mesh undefined?
+  // If mesh is defined.
   if ( mesh !== undefined ) {
     // Removes The object from memory.
+    // So we can replace it with new object.
     geometry.dispose();
     smooth.dispose();
     scene.remove(mesh);
@@ -135,6 +140,7 @@ const subdivide = () => {
   // New geometry to be added in place of the old.
   // N.B With new level of subdivision.
   geometry = new THREE.BoxGeometry(1, 1, 1);
+  geometry.name = `Evan's Geometry`;
   material = new THREE.MeshBasicMaterial({color:'red',wireframe:true});
   // Scaling
   const params = geometry.parameters;
@@ -156,6 +162,7 @@ const subdivide = () => {
   // Adding to scene.
   mesh = new THREE.Mesh(smooth,material);
   mesh.scale.setScalar(params.meshScale ? params.meshScale : 1);
+  mesh.name = `Evan's Box`;
   scene.add(mesh);
 }
 
