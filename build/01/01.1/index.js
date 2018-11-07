@@ -1,6 +1,7 @@
 // ------------------------------------------------- //
 // Evan MacHale - N00150552
-// Working Three.js
+// 06.11.18
+// Three.js
 // Basic subdivision of a box geometry.
 // ------------------------------------------------- //
 // This example uses Three's subdivision modifier utility.

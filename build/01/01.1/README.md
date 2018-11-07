@@ -1,4 +1,4 @@
-# Build : 01 ~ Subdivision
+# Build : 01.1 - Box Geometry Subdivision
 
 [Link to demo](https://larryzodiac.github.io/Generative-Jewellery/build/01-subdivision/index.html)
 

@@ -1,8 +1,12 @@
 // ------------------------------------------------- //
 // Evan MacHale - N00150552
-// Working Index
 // Catmull-Clark Subdivision
 // ------------------------------------------------- //
+
+// This file is me trying to see if I can write the code for
+// the subdivision algorithm, it works, but it uses hardcoded data!
+// However, how can I re-draw all vertices??
+// I need a data structure to iterate over a geometry!
 
 // Holds starting vertices for window shape
 const topLeftFace = {
@@ -199,6 +203,7 @@ const findEdgePoint = (f1,f2) => {
 // ------------------------------------------------- //
 
 // POINTER HELL
+// I can't implement the last step as I have no data structure.
 // const newVertices = () => {
 //   for (var i = 0; i < ; i++) {
 //
