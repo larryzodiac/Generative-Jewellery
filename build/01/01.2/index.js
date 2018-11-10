@@ -6,7 +6,8 @@
 // ------------------------------------------------- //
 // This example uses our own subdivision functions.
 // Get rid of html link to Three modifier library.
-// We create our own file using Catmull-Clark algorithm.
+// We want to eventually create our own file using Catmull-Clark.
+// See loop.js in same folder for study.
 // ------------------------------------------------- //
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_modifier_subdivision.html
 // https://github.com/mrdoob/three.js/blob/master/examples/js/modifiers/modifier.js
@@ -16,7 +17,7 @@ let scene, camera, controls, renderer;
 
 let geometry, material, mesh, smooth;
 
-let subdivisions = 1;
+let subdivisions = 0;
 
 // WebGL compatability check.
 if ( WEBGL.isWebGLAvailable() === false ) {
@@ -33,9 +34,9 @@ const draw = () => {
 
   // THREE.CameraType(FOV,aspectRatio,nearClipPlane,farClipPlane);
 	camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,1000);
-	camera.position.x = 1;
-	camera.position.y = 1.5;
-	camera.position.z = 3.5;
+	camera.position.x = 0;
+	camera.position.y = 3;
+	camera.position.z = 0;
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   // Add geometry in place of old/undefined geometry
@@ -76,6 +77,8 @@ const update = (renderer, scene, camera, controls) => {
 
   // Oribit changes will update the rendered scene.
 	controls.update();
+  // Little cool animate?
+  mesh.rotation.y += 0.01;
 
   // Without a render loop we wouldn't see anything.
   // Causes the renderer to draw the scene every time the screen is refreshed (60 fps).
@@ -137,7 +140,7 @@ const generateSubdivision = () => {
   const modifier = new subdivisionModifier(subdivisions);
   // New geometry to be added in place of the old.
   // N.B With new level of subdivision.
-  geometry = new THREE.BoxGeometry(1, 1, 1);
+  geometry = new THREE.ConeGeometry(1, 1);
   geometry.name = `Evan's Geometry`;
   material = new THREE.MeshBasicMaterial({color:'red',wireframe:true});
   // Scaling
@@ -148,20 +151,20 @@ const generateSubdivision = () => {
   // Smoothing
   // Smooth out the shape ~ adding more vertices.
   smooth = modifier.modify(geometry);
-  // const faceIndices = ['a','b','c'];
-  // for (let i = 0; i < smooth.faces.length; i++) {
-  //   let face  = smooth.faces[ i ];
-  //   // 3 for face indices x, y, z.
-  //   for (let j = 0; j < 3; j ++) {
-  //     let vertexIndex = face[faceIndices[j]];
-  //     let vertex = smooth.vertices[vertexIndex];
-  //   }
-  // }
-  // // Adding to scene.
-  // mesh = new THREE.Mesh(smooth,material);
-  // mesh.scale.setScalar(params.meshScale ? params.meshScale : 1);
-  // mesh.name = `Evan's Box`;
-  // scene.add(mesh);
+  const faceIndices = ['a','b','c'];
+  for (let i = 0; i < smooth.faces.length; i++) {
+    let face  = smooth.faces[ i ];
+    // 3 for face indices x, y, z.
+    for (let j = 0; j < 3; j ++) {
+      let vertexIndex = face[faceIndices[j]];
+      let vertex = smooth.vertices[vertexIndex];
+    }
+  }
+  // Adding to scene.
+  mesh = new THREE.Mesh(smooth,material);
+  mesh.scale.setScalar(params.meshScale ? params.meshScale : 1);
+  mesh.name = `Evan's Box`;
+  scene.add(mesh);
 }
 
 // ------------------------------------------------- //

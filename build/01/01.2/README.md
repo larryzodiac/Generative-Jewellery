@@ -1,4 +1,4 @@
-# Build > 01.2 ... Box Geometry Subdivision
+# Build > 01.2 ... Cone Geometry Subdivision
 
 [Link to demo](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.2/index.html)
 
