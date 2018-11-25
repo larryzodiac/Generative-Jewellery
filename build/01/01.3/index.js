@@ -16,7 +16,7 @@ let scene, camera, controls, renderer;
 
 let geometry, material, mesh, smooth;
 
-let subdivisions = 1;
+let subdivisions = 0;
 
 // WebGL compatability check.
 if ( WEBGL.isWebGLAvailable() === false ) {
@@ -76,6 +76,8 @@ const update = (renderer, scene, camera, controls) => {
 
   // Oribit changes will update the rendered scene.
 	controls.update();
+  // Little cool animate?
+  mesh.rotation.y += 0.01;
 
   // Without a render loop we wouldn't see anything.
   // Causes the renderer to draw the scene every time the screen is refreshed (60 fps).
@@ -134,10 +136,10 @@ const generateSubdivision = () => {
   }
   // Invoke subdivision helper.
   // const subdivisionModifier = new THREE.SubdivisionModifier(subdivisions);
-  const modifier = new subdivisionModifier(subdivisions);
+  const modifier = new SubdivisionModifier(subdivisions);
   // New geometry to be added in place of the old.
   // N.B With new level of subdivision.
-  geometry = new THREE.BoxGeometry(1, 1, 1);
+  geometry = new THREE.OctahedronGeometry(1);
   geometry.name = `Evan's Geometry`;
   material = new THREE.MeshBasicMaterial({color:'red',wireframe:true});
   // Scaling
@@ -148,20 +150,20 @@ const generateSubdivision = () => {
   // Smoothing
   // Smooth out the shape ~ adding more vertices.
   smooth = modifier.modify(geometry);
-  // const faceIndices = ['a','b','c'];
-  // for (let i = 0; i < smooth.faces.length; i++) {
-  //   let face  = smooth.faces[ i ];
-  //   // 3 for face indices x, y, z.
-  //   for (let j = 0; j < 3; j ++) {
-  //     let vertexIndex = face[faceIndices[j]];
-  //     let vertex = smooth.vertices[vertexIndex];
-  //   }
-  // }
-  // // Adding to scene.
-  // mesh = new THREE.Mesh(smooth,material);
-  // mesh.scale.setScalar(params.meshScale ? params.meshScale : 1);
-  // mesh.name = `Evan's Box`;
-  // scene.add(mesh);
+  const faceIndices = ['a','b','c'];
+  for (let i = 0; i < smooth.faces.length; i++) {
+    let face  = smooth.faces[ i ];
+    // 3 for face indices x, y, z.
+    for (let j = 0; j < 3; j ++) {
+      let vertexIndex = face[faceIndices[j]];
+      let vertex = smooth.vertices[vertexIndex];
+    }
+  }
+  // Adding to scene.
+  mesh = new THREE.Mesh(smooth,material);
+  mesh.scale.setScalar(params.meshScale ? params.meshScale : 1);
+  mesh.name = `Evan's Box`;
+  scene.add(mesh);
 }
 
 // ------------------------------------------------- //

@@ -27,6 +27,8 @@
 // Face
 // ------------------------------------------------- //
 
+var Visible = 0;
+
 function Face() {
   this.normal = new THREE.Vector3();
   this.midpoint = new THREE.Vector3();
