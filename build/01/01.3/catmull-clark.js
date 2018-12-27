@@ -121,6 +121,7 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
     const edgePointAvg = new THREE.Vector3();
     const facePointAvg = new THREE.Vector3();
 
+    const duplicates = [];
     const facePointsSurroundingVertex = [];
 
     // 1
@@ -133,44 +134,66 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
           connectingEdges[j].faces[k].facePoint.y,
           connectingEdges[j].faces[k].facePoint.z
         );
-        facePointsSurroundingVertex.push(currentFacePoint);
-      }
-    }
-    // console.log(facePointsSurroundingVertex);
-
-    // 2
-    for (let j = 0; j < connectingEdges.length; j++) { // should be 4
-    //   // Favg
-    //   // Then filter them out
-      for (let k = 0; k < connectingEdges[j].faces.length; k++) { // 2
-        const currentFacePoint = new THREE.Vector3(
-          connectingEdges[j].faces[k].facePoint.x,
-          connectingEdges[j].faces[k].facePoint.y,
-          connectingEdges[j].faces[k].facePoint.z
-        );
-        console.log(`currentFacePoint`);
-        console.log(currentFacePoint);
+        // Includes does not work, WHY?
+        // if (facePointsSurroundingVertex.includes(currentFacePoint) === false) {
+        //   facePointsSurroundingVertex.push(currentFacePoint);
+        // }
+        // Coded below instead....
+        let match = false;
+        let index;
         for (let l = 0; l < facePointsSurroundingVertex.length; l++) {
-          const match = new THREE.Vector3(
-            facePointsSurroundingVertex[l].x,
-            facePointsSurroundingVertex[l].y,
-            facePointsSurroundingVertex[l].z
-          );
-          console.log(`match`);
-          console.log(match);
-          if (currentFacePoint.equals(match)) {
-            console.log('found match');
-            console.log(match);
-            facePointsSurroundingVertex.splice(l,1);
-            break;
-          } else {
-            // console.log(`not a match`);
+          if (facePointsSurroundingVertex[l].equals(currentFacePoint)) {
+            match = true;
+            index = l;
           }
+        }
+        facePointsSurroundingVertex.push(currentFacePoint);
+        if (match === true) {
+          facePointsSurroundingVertex.splice(index,1);
         }
       }
     }
 
     console.log(facePointsSurroundingVertex);
+
+    // if (duplicates.includes(currentFacePoint) === false) {
+    //   facePointsSurroundingVertex.push(currentFacePoint);
+    // }
+
+    // // 2
+    // for (let j = 0; j < connectingEdges.length; j++) { // should be 4
+    //   // Favg
+    //   // Then filter them out
+    //   for (let k = 0; k < connectingEdges[j].faces.length; k++) { // 2
+    //     console.log('-------------------');
+    //     const currentFacePoint = new THREE.Vector3(
+    //       connectingEdges[j].faces[k].facePoint.x,
+    //       connectingEdges[j].faces[k].facePoint.y,
+    //       connectingEdges[j].faces[k].facePoint.z
+    //     );
+    //     console.log(`currentFacePoint`);
+    //     console.log(currentFacePoint);
+    //     for (let l = 0; l < facePointsSurroundingVertex.length; l++) {
+    //       const match = new THREE.Vector3(
+    //         facePointsSurroundingVertex[l].x,
+    //         facePointsSurroundingVertex[l].y,
+    //         facePointsSurroundingVertex[l].z
+    //       );
+    //       console.log(`match`);
+    //       console.log(match);
+    //       if (currentFacePoint.equals(match)) {
+    //         console.log('found match');
+    //         console.log(match);
+    //         facePointsSurroundingVertex.splice(l,1);
+    //         break;
+    //       } else {
+    //         console.log(`not a match`);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // console.log(facePointsSurroundingVertex);
 
     for (let i = 0; i < connectingEdges.length; i++) {
       // 2Eavg
