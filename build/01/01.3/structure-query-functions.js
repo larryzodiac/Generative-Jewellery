@@ -57,3 +57,34 @@ const processEdge = (v1, v2, sourceVertices, sourceEdges, currentFace, metaVerti
   // Below ends up with duplicates in metaVertices.edges
   // metaVertices[v2].edges.push(edge);
 }
+
+// Find an edge on the face using half edge lookup
+// Then check faces points for a match on that edge
+const getFacePoint = (a,b,c,sourceEdges) => {
+  const vertexIndexA = Math.min(a, b);
+  const vertexIndexB = Math.max(a, b);
+  const key = vertexIndexA + "_" + vertexIndexB;
+  const currentEdge = sourceEdges[key];
+  for (var i = 0; i < currentEdge.faces.length; i++) {
+    const currentFace = currentEdge.faces[i].currentFace;
+    if (currentFace.a === a && currentFace.b === b && currentFace.c === c) {
+      return currentEdge.faces[i].facePoint;
+    }
+  }
+}
+
+// Find an edge on the face
+// Return it's edgePoint
+const getEdgePoint = (a, b, sourceEdges) => {
+  const vertexIndexA = Math.min(a, b);
+  const vertexIndexB = Math.max(a, b);
+  const key = vertexIndexA + "_" + vertexIndexB;
+  return sourceEdges[key].edgePoint;
+}
+
+// THREE.Face4 depreciated
+// const createNewFace = (newFaces, a, b, c, materialIndex) => {
+//   newFaces.push(new THREE.Face3(
+//     a, b, c, undefined, undefined, materialIndex
+//   ));
+// }
