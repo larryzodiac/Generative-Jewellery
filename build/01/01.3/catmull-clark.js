@@ -112,22 +112,21 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
   // console.log(sourceVertices);
   // console.log(sourceVerticesRelationships);
 
-  // for (let i = 0; i < sourceVertices.length; i++) {
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < sourceVertices.length; i++) {
+  // for (let i = 0; i < 1; i++) {
     const vertexPoint = new THREE.Vector3();
+    vertexPoint.add(sourceVertices[i]);
     // V = 1/4 [Favg + 2Eavg, + V]
     connectingEdges = sourceVerticesRelationships[i].edges;
     // console.log(connectingEdges);
     const edgePointAvg = new THREE.Vector3();
     const facePointAvg = new THREE.Vector3();
 
-    const duplicates = [];
     const facePointsSurroundingVertex = [];
 
-    // 1
     for (let j = 0; j < connectingEdges.length; j++) { // should be 4
-      // Favg
-      // Add array of all facepoints
+      // Favg Setup
+      // Add array of all facepoints for every edge (Results doubles)
       for (let k = 0; k < connectingEdges[j].faces.length; k++) { // 2
         const currentFacePoint = new THREE.Vector3(
           connectingEdges[j].faces[k].facePoint.x,
@@ -154,88 +153,29 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
       }
     }
 
-    console.log(facePointsSurroundingVertex);
-
-    // if (duplicates.includes(currentFacePoint) === false) {
-    //   facePointsSurroundingVertex.push(currentFacePoint);
-    // }
-
-    // // 2
-    // for (let j = 0; j < connectingEdges.length; j++) { // should be 4
-    //   // Favg
-    //   // Then filter them out
-    //   for (let k = 0; k < connectingEdges[j].faces.length; k++) { // 2
-    //     console.log('-------------------');
-    //     const currentFacePoint = new THREE.Vector3(
-    //       connectingEdges[j].faces[k].facePoint.x,
-    //       connectingEdges[j].faces[k].facePoint.y,
-    //       connectingEdges[j].faces[k].facePoint.z
-    //     );
-    //     console.log(`currentFacePoint`);
-    //     console.log(currentFacePoint);
-    //     for (let l = 0; l < facePointsSurroundingVertex.length; l++) {
-    //       const match = new THREE.Vector3(
-    //         facePointsSurroundingVertex[l].x,
-    //         facePointsSurroundingVertex[l].y,
-    //         facePointsSurroundingVertex[l].z
-    //       );
-    //       console.log(`match`);
-    //       console.log(match);
-    //       if (currentFacePoint.equals(match)) {
-    //         console.log('found match');
-    //         console.log(match);
-    //         facePointsSurroundingVertex.splice(l,1);
-    //         break;
-    //       } else {
-    //         console.log(`not a match`);
-    //       }
-    //     }
-    //   }
-    // }
-
-    // console.log(facePointsSurroundingVertex);
-
     for (let i = 0; i < connectingEdges.length; i++) {
       // 2Eavg
       edgePointAvg.add(connectingEdges[i].edgePoint);
       edgePointAvg.multiplyScalar(2);
+      // Favg
+      facePointAvg.add(facePointsSurroundingVertex[i]);
     }
     // console.log(edgePointAvg);
-
+    // console.log(facePointAvg);
+    // V = 1/4 [Favg + 2Eavg, + V]
+    vertexPoint.add(edgePointAvg);
+    vertexPoint.add(facePointAvg);
+    vertexPoint.multiplyScalar(0.25);
+    vertexPoints.push(vertexPoint);
   }
-  // // Keep track of every connecting variable to our given point.
-  // let connectingEdge, connectingPoint, connectingEdges;
-  // // We iterate through oldVertices + push new vertices to array.
-  // let oldVertex, newSourceVertex;
-  // // List of new positions for old vertices.
-  // const newSourceVertices = [];
+  // console.log(vertexPoints);
+
+  /*
+  Step 4
+  Redraw geometry
+  */
+
   //
-  // for (let i = 0; i < oldVertices.length; i++) {
-  //   oldVertex = oldVertices[i];
-  //   // find all connecting edges (using lookupTable)
-  //   connectingEdges = metaVertices[i].edges;
-  //   const numberOfConnectingEdges = connectingEdges.length;
-  //   // Loop's original beta formula
-  //   // beta = 1 / n * ( 5/8 - Math.pow( 3/8 + 1/4 * Math.cos( 2 * Math. PI / n ), 2) );
-  //   beta = 3 / (8 * numberOfConnectingEdges);
-  //   connectingVertexWeight = beta;
-  //   sourceVertexWeight = 1 - numberOfConnectingEdges * beta;
-  //   // Source with connecting points around it.
-  //   // Apply weight to source vertex.
-  //   newSourceVertex = oldVertex.clone().multiplyScalar(sourceVertexWeight); // 1 - nβ
-  //   // For each edge, find each point that this point is related to.
-  //   vertexHolder.set(0, 0, 0);
-  //   for (let j = 0; j < numberOfConnectingEdges; j++) {
-  //     connectingEdge = connectingEdges[j];
-  //     connectingPoint = connectingEdge.a !== oldVertex ? connectingEdge.a : connectingEdge.b;
-  //     vertexHolder.add(connectingPoint);
-  //   }
-  //   // Apply weight to connecting vertices.
-  //   vertexHolder.multiplyScalar(connectingVertexWeight); // β
-  //   newSourceVertex.add(vertexHolder);
-  //   // List of new positions for old vertices.
-  //   newSourceVertices.push(newSourceVertex);
-  // } // End for loop.
 
 }
 
