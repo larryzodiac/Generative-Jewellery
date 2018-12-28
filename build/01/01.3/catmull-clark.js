@@ -98,7 +98,8 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
       sourceEdges[`${currentEdge}`].faces[1].facePoint
     );
     edgePoint.multiplyScalar(0.25);
-    sourceEdges[`${currentEdge}`].edgePoint = edgePoint;
+    sourceEdges[`${currentEdge}`].edgePoint = edgePoint; // index in vertex list for face generation (a,b,c)
+    edgePoints.push(edgePoint);
   }
 
   /*
@@ -168,7 +169,6 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
     vertexPoint.multiplyScalar(0.25);
     vertexPoints.push(vertexPoint);
   }
-  // console.log(vertexPoints);
 
   /*
   Step 4
@@ -178,6 +178,7 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
   const newVertices = vertexPoints.concat(edgePoints,facePoints);
   const newFaces = [];
 
+  // console.log(newVertices);
   // console.log(sourceEdges);
   // console.log(sourceFaces);
 
@@ -185,30 +186,34 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
   // for (let i = 0; i < 1; i++) {
     const face = sourceFaces[i];
 
-    const facePoint = getFacePoint(face.a, face.b, face.c, sourceEdges);
-    // console.log(facePoint);
-    const edgePoint1 = getEdgePoint(face.a, face.b, sourceEdges);
-    const edgePoint2 = getEdgePoint(face.b, face.c, sourceEdges);
-    const edgePoint3 = getEdgePoint(face.c, face.a, sourceEdges);
+    const edgePoint1 = getEdgePoint(face.a, face.b, sourceEdges, edgePoints) + sourceVertices.length;
+    const edgePoint2 = getEdgePoint(face.b, face.c, sourceEdges, edgePoints) + sourceVertices.length;
+    const edgePoint3 = getEdgePoint(face.c, face.a, sourceEdges, edgePoints) + sourceVertices.length;
     // console.log(edgePoint1);
     // console.log(edgePoint2);
     // console.log(edgePoint3);
 
+    const facePoint = getFacePoint(face.a, face.b, face.c, sourceEdges, facePoints) + sourceVertices.length + edgePoints.length;
+    // console.log(facePoint);
     /*
     Problem here.
     Using Catmull for ARBITRARY shapes, all faces after the first iteration become quads.
     This is a problem as THREE.Face4 has been depreciated in the new Three.js build
     The solution will be to draw a quad using two triangles, ughhhh kill me.
     */
-    // createNewFace(newFaces, )
 
-    // createNewFace(newFaces, face.a, edge1, edge3, facePoint);
-    // createNewFace(newFaces, face.b, edge2, edge1, facePoint);
-    // createNewFace(newFaces, face.c, edge3, edge2, facePoint);
+    createNewFace(newFaces, face.a, edgePoint1, edgePoint3, facePoint);
+    createNewFace(newFaces, face.b, edgePoint2, edgePoint1, facePoint);
+    createNewFace(newFaces, face.c, edgePoint3, edgePoint2, facePoint);
   }
 
-  // geometry.vertices = newVertices;
-  // geometry.faces = newFaces;
+  // console.log(sourceEdges);
+
+  // console.log(newVertices);
+  // console.log(newFaces);
+
+  geometry.vertices = newVertices;
+  geometry.faces = newFaces;
 }
 
 // ------------------------------------------------- //

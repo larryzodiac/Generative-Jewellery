@@ -60,31 +60,54 @@ const processEdge = (v1, v2, sourceVertices, sourceEdges, currentFace, metaVerti
 
 // Find an edge on the face using half edge lookup
 // Then check faces points for a match on that edge
-const getFacePoint = (a,b,c,sourceEdges) => {
+const getFacePoint = (a,b,c,sourceEdges,facePoints) => {
   const vertexIndexA = Math.min(a, b);
   const vertexIndexB = Math.max(a, b);
   const key = vertexIndexA + "_" + vertexIndexB;
   const currentEdge = sourceEdges[key];
   for (var i = 0; i < currentEdge.faces.length; i++) {
     const currentFace = currentEdge.faces[i].currentFace;
+    // if (currentFace.a === a && currentFace.b === b && currentFace.c === c) {
+    //   return currentEdge.faces[i].facePoint;
+    // }
     if (currentFace.a === a && currentFace.b === b && currentFace.c === c) {
-      return currentEdge.faces[i].facePoint;
+      const matchedFacePoint = currentEdge.faces[i].facePoint
+      // console.log(facePoints);
+      // console.log(currentEdge.faces[i].facePoint);
+      // console.log(facePoints.indexOf(currentEdge.faces[i].facePoint));
+      // return facePoints.indexOf(currentEdge.faces[i].facePoint);
+      for (var i = 0; i < facePoints.length; i++) {
+        if (matchedFacePoint.equals(facePoints[i])) {
+          // console.log(i);
+          return i;
+        }
+      }
     }
   }
 }
 
 // Find an edge on the face
 // Return it's edgePoint
-const getEdgePoint = (a, b, sourceEdges) => {
+const getEdgePoint = (a, b, sourceEdges, edgePoints) => {
   const vertexIndexA = Math.min(a, b);
   const vertexIndexB = Math.max(a, b);
   const key = vertexIndexA + "_" + vertexIndexB;
-  return sourceEdges[key].edgePoint;
+  const matchedEdgePoint = sourceEdges[key].edgePoint;
+  for (var i = 0; i < edgePoints.length; i++) {
+    if (matchedEdgePoint.equals(edgePoints[i])) {
+      // console.log(i);
+      return i;
+    }
+  }
 }
 
 // THREE.Face4 depreciated
-// const createNewFace = (newFaces, a, b, c, materialIndex) => {
-//   newFaces.push(new THREE.Face3(
-//     a, b, c, undefined, undefined, materialIndex
-//   ));
-// }
+// Need to draw two triangles to emulate quad
+const createNewFace = (newFaces, a, b, c, d, materialIndex) => {
+  newFaces.push(new THREE.Face3(
+    a, b, d, undefined, undefined, materialIndex
+  ));
+  newFaces.push(new THREE.Face3(
+    a, c, d, undefined, undefined, materialIndex
+  ));
+}
