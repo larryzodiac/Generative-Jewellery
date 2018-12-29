@@ -98,7 +98,7 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
       sourceEdges[`${currentEdge}`].faces[0].facePoint,
       sourceEdges[`${currentEdge}`].faces[1].facePoint
     );
-    edgePoint.multiplyScalar(0.25);
+    edgePoint.multiplyScalar(0.5);
     midPoint.addVectors(
       sourceEdges[`${currentEdge}`].a,
       sourceEdges[`${currentEdge}`].b
