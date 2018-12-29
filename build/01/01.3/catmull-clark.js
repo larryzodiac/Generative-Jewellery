@@ -89,6 +89,7 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
 
   for (let i = 0; i < edges.length; i++) {
     const edgePoint  = new THREE.Vector3();
+    const midPoint = new THREE.Vector3();
     // E = 1/4 [F1 + F2 + P1, P1]
     currentEdge = edges[i];
     edgePoint.addVectors(
@@ -98,9 +99,17 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
       sourceEdges[`${currentEdge}`].faces[1].facePoint
     );
     edgePoint.multiplyScalar(0.25);
+    midPoint.addVectors(
+      sourceEdges[`${currentEdge}`].a,
+      sourceEdges[`${currentEdge}`].b
+    );
+    midPoint.multiplyScalar(0.5);
+    sourceEdges[`${currentEdge}`].midPoint = midPoint; // Vertex point formula
     sourceEdges[`${currentEdge}`].edgePoint = edgePoint; // index in vertex list for face generation (a,b,c)
     edgePoints.push(edgePoint);
   }
+
+  console.log(sourceEdges);
 
   /*
   Step 3
@@ -120,7 +129,8 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
     // V = 1/4 [Favg + 2Eavg, + V]
     connectingEdges = sourceVerticesRelationships[i].edges;
     // console.log(connectingEdges);
-    const edgePointAvg = new THREE.Vector3();
+    // const edgePointAvg = new THREE.Vector3();
+    const midPointAvg = new THREE.Vector3();
     const facePointAvg = new THREE.Vector3();
 
     const facePointsSurroundingVertex = [];
@@ -154,19 +164,32 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
       }
     }
 
+    /*
+    V = [Favg + 2MidPointAvg + (n-3)V] / n
+    */
+
     for (let i = 0; i < connectingEdges.length; i++) {
       // 2Eavg
-      edgePointAvg.add(connectingEdges[i].edgePoint);
-      edgePointAvg.multiplyScalar(2);
+      // edgePointAvg.add(connectingEdges[i].edgePoint);
+      // is actually 2Mavg
+      midPointAvg.add(connectingEdges[i].midPoint);
       // Favg
       facePointAvg.add(facePointsSurroundingVertex[i]);
     }
+    const weight = (facePointsSurroundingVertex.length - 3) // (n-3)
+    console.log(weight);
+    vertexPoint.multiplyScalar(weight);
+    // edgePointAvg.multiplyScalar(1/connectingEdges.length);
+    // edgePointAvg.multiplyScalar(2);
+    midPointAvg.multiplyScalar(1/connectingEdges.length);
+    midPointAvg.multiplyScalar(2);
+    facePointAvg.multiplyScalar(1/facePointsSurroundingVertex.length);
     // console.log(edgePointAvg);
     // console.log(facePointAvg);
     // V = 1/4 [Favg + 2Eavg, + V]
-    vertexPoint.add(edgePointAvg);
+    vertexPoint.add(midPointAvg);
     vertexPoint.add(facePointAvg);
-    vertexPoint.multiplyScalar(0.25);
+    vertexPoint.divideScalar(facePointsSurroundingVertex.length);
     vertexPoints.push(vertexPoint);
   }
 

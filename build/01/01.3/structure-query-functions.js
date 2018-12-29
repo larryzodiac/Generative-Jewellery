@@ -39,6 +39,7 @@ const processEdge = (v1, v2, sourceVertices, sourceEdges, currentFace, metaVerti
       a: vertexA, // pointer reference
       b: vertexB,
       edgePoint: null,
+      midPoint: null,
       // aIndex: a, // numbered reference
       // bIndex: b,
       faces: [] // pointers to faces
