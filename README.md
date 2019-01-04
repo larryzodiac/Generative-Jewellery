@@ -4,6 +4,19 @@ An ode to the work of [Michael Hansmeyer](http://www.michael-hansmeyer.com/) uti
 
 Most recent exercise [demo](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.3/index.html).
 
+## Semester 01 > Researching Subdivision Surfaces
+
+[Index Shortcuts](build/01/)
+
+0. [Examining subdivision](build/01/01.0/index.js).
+1. [How Three.js implements subdivision](build/01/01.1/).
+2. [Writing Loop subdivision](build/01/01.2/).
+3. [Writing Catmull-Clark subdivision](build/01/01.3/).
+
+## Semester 02 > Building an Application
+
+0. [...]()
+
 ## Github Projects
 
 View Kan-Ban project progression [here](https://github.com/larryzodiac/Generative-Jewellery/projects/2).
