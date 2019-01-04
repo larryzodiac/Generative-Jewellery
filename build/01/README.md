@@ -2,10 +2,10 @@
 
 Semester one involved understanding subdivision surfaces in theory and how they translate to the Three JavaScript library in practice.
 
-01.0. [Examining subdivision](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.0/).
-01.1. [How Three.js implements subdivision](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.1/index.html).
-01.2. [Writing Loop subdivision](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.2/index.html).
-01.3. [Writing Catmull-Clark subdivision](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.3/index.html).
+0. [Examining subdivision](01.0/index.js).
+1. [How Three.js implements subdivision](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.1/index.html).
+2. [Writing Loop subdivision](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.2/index.html).
+3. [Writing Catmull-Clark subdivision](https://larryzodiac.github.io/Generative-Jewellery/build/01/01.3/index.html).
 
 ## Reference
 
