@@ -27,8 +27,8 @@ class Scene extends Component {
     const height = this.mount.clientHeight;
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x666161);
-		scene.fog = new THREE.FogExp2(0x666161, 0.1);
+    scene.background = new THREE.Color(0xffde03);
+		// scene.fog = new THREE.FogExp2(0xffde03, 0.1);
 		// scene.fog = new THREE.Fog(scene.background,1,5000);
 
     // THREE.CameraType(FOV,aspectRatio,nearClipPlane,farClipPlane);
@@ -38,16 +38,16 @@ class Scene extends Component {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     // Lights
-  	const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xffe2e2, 0.6);
+  	const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
   	// hemisphereLight.color.setHSL(0.6, 1, 0.6);
   	// hemisphereLight.groundColor.setHSL(0.095, 1, 0.75);
-  	hemisphereLight.position.set(0, 500, 0);
+  	hemisphereLight.position.set(0, 100, 0);
   	scene.add(hemisphereLight);
     const hemiLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 10);
 		scene.add(hemiLightHelper);
 
     // Create a DirectionalLight and turn on shadows for the light
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
     // directionalLight.color.setHSL(0.1, 1, 0.95);
     directionalLight.position.set(-0.5, 1.75, 0.5);
     directionalLight.position.multiplyScalar(50);
@@ -157,7 +157,7 @@ class Scene extends Component {
   getOctahedron = (w,h) => {
     const geometry = new THREE.OctahedronGeometry(w, h);
     const material = new THREE.MeshPhongMaterial();
-    // material.color.setHex(0xff00e2);
+    material.color.setHex(0xff0266);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = true;
     mesh.receiveShadow = false;
@@ -168,7 +168,7 @@ class Scene extends Component {
   getPlane = (w,h) => {
     const geometry = new THREE.PlaneBufferGeometry(w,h);
   	const material = new THREE.MeshPhongMaterial({side:THREE.DoubleSide});
-    // material.color.setHex(0xffe2e2);
+    material.color.setHex(0xffde03);
   	const mesh = new THREE.Mesh(geometry,material);
     mesh.rotation.x = -1.5708;
     mesh.position.y = -2;

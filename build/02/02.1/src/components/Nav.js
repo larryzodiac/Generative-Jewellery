@@ -22,15 +22,14 @@ const Nav = () => {
     <header>
       <TopAppBar
         title='Generative Jewellery'
+        className = 'top-app-bar-alternate'
         navigationIcon={<MaterialIcon
           icon='menu'
           onClick={() => console.log('click')}
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <TopAppBarFixedAdjust>
-        My exciting content! Use as padding for content
-      </TopAppBarFixedAdjust>
+      <TopAppBarFixedAdjust></TopAppBarFixedAdjust>
     </header>
   );
 }
