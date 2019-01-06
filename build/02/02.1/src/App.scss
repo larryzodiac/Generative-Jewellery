@@ -22,14 +22,27 @@
 // ------------------------------------------------- //
 
 // Import MDC Sass modules + Override styles
+
+// Grid
+@import '@material/react-layout-grid/index.scss';
+// Icons
+@import '@material/react-material-icon/index.scss';
+// Nav
+@import '@material/react-top-app-bar/index.scss';
+// Buttons
 @import "@material/react-button/index.scss";
 @import "./style-overrides/react-button-overrides";
 
-.App {
+.app {
 
 }
 
+// .container {
+//   z-index: 1;
+// }
+
 .canvas {
+  z-index: -1;
   position: fixed;
   top: 0;
   right: 0;

@@ -8,30 +8,43 @@
 // ------------------------------------------------- //
 
 import React, { Component } from 'react';
-import Scene from './components/ThreeScene';
+// Material Design Components
+import {Cell, Grid, Row} from '@material/react-layout-grid';
 import Button from '@material/react-button';
+// My Components
+import Scene from './components/Scene';
+import Nav from './components/Nav';
 
 import './App.scss';
 
-// Most of our material components will be complied here alongside our canvas... I hope
+// Most of our material components will be compiled here alongside our canvas... I hope
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <Button
-          raised
-          className='button-alternate'
-          onClick={() => console.log('clicked!')}
-        >
-          Click Me!
-        </Button>
-        <Scene/>
-      </div>
+      <main className="app">
+        <Nav/>
+        <section>
+          <Grid className="container">
+            <Row>
+              <p>Hello world</p>
+            </Row>
+          </Grid>
+          <Scene/>
+        </section>
+      </main>
     );
   }
 }
 
 export default App;
+
+// <Button
+//   raised
+//   className='button-alternate'
+//   onClick={() => console.log('clicked!')}
+// >
+//   Click Me!
+// </Button>
 
 // class App extends Component {
 //   render() {
