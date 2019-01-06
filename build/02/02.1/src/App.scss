@@ -1,0 +1,38 @@
+// ------------------------------------------------- //
+// Evan MacHale - N00150552
+// 06.01.19
+// React + Material Design Testing
+// ------------------------------------------------- //
+// https://github.com/material-components/material-components-web-react#step-3a-use-compiled-css
+// https://sass-lang.com/guide
+// ------------------------------------------------- //
+/*
+  06.01.19
+  Installed Typescript for Material:
+    npm i @types/react @types/react-dom @types/classnames @types/node typescript
+  Installed Material React components:
+    npm install @material/react-button
+  Installed Sass for Material Styles:
+    npm install -g sass
+  Added environment variable for sass:
+    SET SASS_PATH=.\node_modules
+    npm install node-sass
+  -> @import... below to use Material Design Components
+*/
+// ------------------------------------------------- //
+
+// Import MDC Sass modules + Override styles
+@import "@material/react-button/index.scss";
+@import "./style-overrides/react-button-overrides";
+
+.App {
+
+}
+
+.canvas {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
