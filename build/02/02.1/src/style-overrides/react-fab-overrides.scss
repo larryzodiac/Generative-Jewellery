@@ -1,0 +1,20 @@
+@import "@material/fab/mixins";
+
+$blue: #0336ff;
+$yellow: #ffde03;
+$pink: #ff0266;
+$transparent: #ffffff00;
+
+.fab-alternate {
+  // @include mdc-top-app-bar-fill-color($transparent);
+  @include mdc-fab-container-color($blue);
+}
+
+// .fab-no-icon {
+//   padding-top: 2em;
+//   padding-bottom: 2em;
+// }
+
+// .fab-rotated {
+//   transform: rotate(45deg);
+// }

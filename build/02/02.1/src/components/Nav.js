@@ -21,13 +21,13 @@ const Nav = () => {
   return (
     <header>
       <TopAppBar
-        title='Generative Jewellery'
+        // title='Generative Jewellery'
         className = 'top-app-bar-alternate'
         navigationIcon={<MaterialIcon
           icon='menu'
           onClick={() => console.log('click')}
         />}
-        actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
+        actionItems={[<MaterialIcon key='item' icon='settings'/>]}
       />
       <TopAppBarFixedAdjust></TopAppBarFixedAdjust>
     </header>

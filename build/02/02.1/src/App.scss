@@ -30,17 +30,22 @@
 // Nav
 @import '@material/react-top-app-bar/index.scss';
 @import "./style-overrides/react-top-app-bar-overrides";
-// Buttons
-@import "@material/react-button/index.scss";
-@import "./style-overrides/react-button-overrides";
+// Floating action Buttons
+@import '@material/react-fab/index.scss';
+@import "./style-overrides/react-fab-overrides";
+// Button
+@import '@material/react-button/index.scss';
 
 .app {
 
 }
 
-// .container {
-//   z-index: 1;
-// }
+.bottom-app-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
 .canvas {
   z-index: -1;

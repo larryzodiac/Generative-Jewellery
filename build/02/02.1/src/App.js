@@ -10,10 +10,10 @@
 import React, { Component } from 'react';
 // Material Design Components
 import {Cell, Grid, Row} from '@material/react-layout-grid';
-import Button from '@material/react-button';
 // My Components
 import Scene from './components/Scene';
 import Nav from './components/Nav';
+import BottomAppBar from './components/BottomAppBar';
 
 import './App.scss';
 
@@ -23,14 +23,8 @@ class App extends Component {
     return (
       <main className="app">
         <Nav/>
-        <section>
-          <Grid className="container">
-            <Row>
-              <p>Hello world</p>
-            </Row>
-          </Grid>
-          <Scene/>
-        </section>
+        <Scene/>
+        <BottomAppBar/>
       </main>
     );
   }
