@@ -10,55 +10,67 @@
 import React, { Component } from 'react';
 // Material Design Components
 import {Cell, Grid, Row} from '@material/react-layout-grid';
+import {
+  Body1,
+  Body2,
+  Button,
+  Caption,
+  Headline1,
+  Headline2,
+  Headline3,
+  Headline4,
+  Headline5,
+  Headline6,
+  Overline,
+  Subtitle1,
+  Subtitle2,
+} from '@material/react-typography';
+
+// ------------------------------------------------- //
+
 // My Components
 import Scene from './components/Scene';
 import Nav from './components/Nav';
 import BottomAppBar from './components/BottomAppBar';
+// Left App
+import LeftAppBar from './components/LeftAppBar';
+import LeftAppShapes from './components/LeftAppShapes';
+import LeftAppFunctions from './components/LeftAppFunctions';
+// Right App
+import RightAppBar from './components/RightAppBar';
 
 import './App.scss';
+
+// ------------------------------------------------- //
 
 // Most of our material components will be compiled here alongside our canvas... I hope
 class App extends Component {
   render() {
     return (
       <main className="app">
-        <Nav/>
+        <Grid>
+          <Row>
+            <Cell desktopColumns={1} tabletColumns={1}>
+              <LeftAppBar/>
+            </Cell>
+            <Cell desktopColumns={2} tabletColumns={1}>
+              <LeftAppFunctions/>
+            </Cell>
+            <Cell desktopColumns={6} tabletColumns={4}></Cell>
+            <Cell desktopColumns={2} tabletColumns={1}></Cell>
+            <Cell desktopColumns={1} tabletColumns={1}>
+              <RightAppBar/>
+            </Cell>
+          </Row>
+        </Grid>
         <Scene/>
-        <BottomAppBar/>
       </main>
     );
   }
 }
 
+// ------------------------------------------------- //
+
 export default App;
 
-// <Button
-//   raised
-//   className='button-alternate'
-//   onClick={() => console.log('clicked!')}
-// >
-//   Click Me!
-// </Button>
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <p>
-//             Edit <code>src/App.js</code> and save to reload.
-//           </p>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     );
-//   }
-// }
+// ------------------------------------------------- //

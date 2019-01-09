@@ -1,9 +1,5 @@
 @import "@material/fab/mixins";
-
-$blue: #0336ff;
-$yellow: #ffde03;
-$pink: #ff0266;
-$transparent: #ffffff00;
+@import "colours";
 
 .fab-alternate {
   // @include mdc-top-app-bar-fill-color($transparent);

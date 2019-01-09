@@ -1,9 +1,5 @@
 @import "@material/top-app-bar/mixins";
-
-$blue: #0336ff;
-$yellow: #ffde03;
-$pink: #ff0266;
-$transparent: #ffffff00;
+@import "colours";
 
 .top-app-bar-alternate {
   @include mdc-top-app-bar-fill-color($transparent);

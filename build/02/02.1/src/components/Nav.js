@@ -17,6 +17,8 @@ import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
 */
 import MaterialIcon from '@material/react-material-icon';
 
+// ------------------------------------------------- //
+
 const Nav = () => {
   return (
     <header>
@@ -33,5 +35,7 @@ const Nav = () => {
     </header>
   );
 }
+
+// ------------------------------------------------- //
 
 export default Nav;

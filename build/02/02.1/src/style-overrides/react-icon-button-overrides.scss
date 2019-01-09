@@ -1,0 +1,7 @@
+@import "@material/fab/mixins";
+@import "colours";
+
+.icon-button-alternate {
+  @include mdc-icon-button-ink-color($blue);
+  // @include mdc-icon-button-size($width, $height, $padding)
+}

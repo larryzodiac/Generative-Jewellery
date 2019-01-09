@@ -13,17 +13,15 @@ import React from 'react';
   Linked in index.html via Google web fonts -> faster
   https://github.com/material-components/material-components-web-react/tree/master/packages/material-icon
 */
-import {Cell, Grid, Row} from '@material/react-layout-grid';
+import {Cell, Row} from '@material/react-layout-grid';
 import Fab from '@material/react-fab';
 
 class BottomAppBar extends React.Component {
   render() {
     return (
-      <Grid className="bottom-app-bar">
-        <Row>
+        <Row className="bottom-app-bar">
           <Cell desktopColumns={5} tabletColumns={3} phoneColumns={1}>
             <div align="right">
-
             </div>
           </Cell>
           <Cell desktopColumns={2} tabletColumns={2} phoneColumns={2}>
@@ -36,7 +34,6 @@ class BottomAppBar extends React.Component {
             </div>
           </Cell>
         </Row>
-      </Grid>
     );
   }
 }
