@@ -5,7 +5,7 @@
 // ------------------------------------------------- //
 
 import React from 'react';
-import {Cell, Row} from '@material/react-layout-grid';
+import {Row} from '@material/react-layout-grid';
 import {Headline6} from '@material/react-typography';
 
 // ------------------------------------------------- //

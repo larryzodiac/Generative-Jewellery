@@ -33,9 +33,7 @@ import Scene from './components/Scene';
 import Nav from './components/Nav';
 import BottomAppBar from './components/BottomAppBar';
 // Left App
-import LeftAppBar from './components/LeftAppBar';
-import LeftAppShapes from './components/LeftAppShapes';
-import LeftAppFunctions from './components/LeftAppFunctions';
+import LeftAppBar from './components/left-app-components/LeftAppBar';
 // Right App
 import RightAppBar from './components/RightAppBar';
 
@@ -50,12 +48,11 @@ class App extends Component {
       <main className="app">
         <Grid>
           <Row>
-            <Cell desktopColumns={1} tabletColumns={1}>
+
+            <Cell desktopColumns={3} tabletColumns={2}>
               <LeftAppBar/>
             </Cell>
-            <Cell desktopColumns={2} tabletColumns={1}>
-              <LeftAppFunctions/>
-            </Cell>
+
             <Cell desktopColumns={6} tabletColumns={4}></Cell>
             <Cell desktopColumns={2} tabletColumns={1}></Cell>
             <Cell desktopColumns={1} tabletColumns={1}>

@@ -17,15 +17,15 @@ import {Body1} from '@material/react-typography';
   The following codes implements the material-components-web version
 */
 
-import {MDCSlider} from '@material/slider';
+// import {MDCSlider} from '@material/slider';
 
 // ------------------------------------------------- //
 
 class FunctionSlider extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.slider = new MDCSlider(document.querySelector('.mdc-slider'));
-  }
+  // constructor(props) {
+  //   super(props);
+  //   // this.slider = new MDCSlider(document.querySelector('.mdc-slider'));
+  // }
 
   render() {
     // const slider = new MDCSlider(document.querySelector('.mdc-slider'));
