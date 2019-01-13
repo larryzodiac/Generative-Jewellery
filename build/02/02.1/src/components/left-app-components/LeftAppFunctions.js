@@ -15,15 +15,15 @@ import FunctionSlider from './FunctionSlider';
 
 // ------------------------------------------------- //
 
-// function options
+// function options for slider
 const functions = [
-  {name:'Subdivisions'},
-  {name:'Adjacent Weight'},
-  {name:'Edge-Point Weight'},
-  {name:'Connecting Edges Weight'}
+  {name:'Subdivisions', max:10, step:1},
+  {name:'Adjacent Weight', max:1, step:null},
+  {name:'Edge-Point Weight', max:1, step:null},
+  {name:'Connecting Edges Weight', max:10, step:1}
 ];
 // Passing Props to generate list
-const functionsList = functions.map(u => <FunctionSlider name={u.name}/>);
+const functionsList = functions.map(p => <FunctionSlider key={p.name} name={p.name} max={p.max} step={p.step}/>);
 
 // ------------------------------------------------- //
 

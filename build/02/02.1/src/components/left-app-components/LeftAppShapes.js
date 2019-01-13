@@ -31,7 +31,7 @@ const shapes = [
   {name:'Torus', image:'http://showcase.iadt.ie/assets/CC3/Headshot/N00153748_Profile.jpg'}
 ];
 // Passing Props to generate list
-const shapesList = shapes.map(u => <GeometryCard name={u.name} image={u.image}/>);
+const shapesList = shapes.map(u => <GeometryCard key={u.name} name={u.name} image={u.image}/>);
 
 // ------------------------------------------------- //
 

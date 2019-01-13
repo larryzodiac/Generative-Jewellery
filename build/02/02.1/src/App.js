@@ -45,21 +45,32 @@ import './App.scss';
 class App extends Component {
   render() {
     return (
-      <main className="app">
-        <Grid>
-          <Row>
+      <main className='app'>
 
-            <Cell desktopColumns={3} tabletColumns={2}>
+      {/*
+        Note two <Grid> components
+        I discovered a problem using one grid -> it stretches acosss the entire screen
+        This means that the mouse cannot interact with the Three.js <Scene/>
+        Using two goes against Material Design principles but is the only solution.
+        z-index doesn't effectively solve the problem
+      */}
+
+        <Grid tag='section' className='grid-left'>
+          <Row>
+            <Cell desktopColumns={12} tabletColumns={12}>
               <LeftAppBar/>
             </Cell>
+          </Row>
+        </Grid>
 
-            <Cell desktopColumns={6} tabletColumns={4}></Cell>
-            <Cell desktopColumns={2} tabletColumns={1}></Cell>
+        <Grid tag='section' className='grid-right'>
+          <Row>
             <Cell desktopColumns={1} tabletColumns={1}>
               <RightAppBar/>
             </Cell>
           </Row>
         </Grid>
+
         <Scene/>
       </main>
     );

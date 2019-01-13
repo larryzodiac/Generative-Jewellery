@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.8.3",
+    "@material-ui/lab": "^3.0.0-alpha.28",
     "@material/react-button": "^0.8.0",
     "@material/react-card": "^0.8.0",
     "@material/react-checkbox": "^0.8.0",
@@ -10,6 +12,7 @@
     "@material/react-icon-button": "^0.8.0",
     "@material/react-layout-grid": "^0.8.0",
     "@material/react-material-icon": "^0.8.0",
+    "@material/react-text-field": "^0.8.0",
     "@material/react-top-app-bar": "^0.8.0",
     "@material/react-typography": "^0.8.0",
     "@material/slider": "^0.43.0",

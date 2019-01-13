@@ -1,7 +1,7 @@
 // ------------------------------------------------- //
 // Evan MacHale - N00150552
 // 06.01.19
-// React + Material Design Testing
+// React + Material Design Styles
 // ------------------------------------------------- //
 // https://github.com/material-components/material-components-web-react#step-3a-use-compiled-css
 // https://sass-lang.com/guide
@@ -44,22 +44,46 @@
 @import '@material/react-checkbox/index.scss';
 // Card
 @import '@material/react-card/index.scss';
+// Text field
+@import '@material/react-text-field/index.scss';
 
 // ------------------------------------------------- //
 
 // material-components-web (not React integrated)
 @import "@material/slider/mdc-slider";
 
-.app {
+// ------------------------------------------------- //
 
+/*
+  The MDC grid overlays the <Scene/>
+  This will cause mouse interaction problems
+  We need to move parts behind the scene to fix
+
+  Alternatively, consider creating two serpaerate grids?
+  Having one grid means it stretches across the entire screen
+  Having two serpaerate grids on the left and right side may leave space for the mouse interaction
+*/
+
+.grid-left {
+  position: fixed;
+  left: 0;
+  width: 20%
 }
 
-// .bottom-app-bar {
-//   position: fixed;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-// }
+.grid-right {
+  position: fixed;
+  right: 0;
+  width: 20%
+}
+
+// ------------------------------------------------- //
+
+// material-ui slider
+.slider {
+  padding: 1rem 0rem;
+}
+
+// ------------------------------------------------- //
 
 .canvas {
   z-index: -1;
