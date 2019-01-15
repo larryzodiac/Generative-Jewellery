@@ -180,7 +180,7 @@ class Scene extends Component {
 
   render() {
     return (
-      <section
+      <main
         className="canvas"
         ref={mount => {
           this.mount = mount

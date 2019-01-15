@@ -31,49 +31,40 @@
 @import '@material/react-material-icon/index.scss';
 // Icon buttons
 @import '@material/react-icon-button/index.scss';
-@import "./style-overrides/react-icon-button-overrides";
 // Buttons
 @import '@material/react-button/index.scss';
 // Floating action buttons
 @import '@material/react-fab/index.scss';
-@import "./style-overrides/react-fab-overrides";
 // Top app bar
 @import '@material/react-top-app-bar/index.scss';
-@import "./style-overrides/react-top-app-bar-overrides";
+@import './style-overrides/react-top-app-bar-overrides';
 // Checkbox
 @import '@material/react-checkbox/index.scss';
+// Radio
+@import '@material/react-radio/index.scss';
 // Card
 @import '@material/react-card/index.scss';
 // Text field
 @import '@material/react-text-field/index.scss';
+// Drawer
+@import '@material/react-drawer/index.scss';
+@import './style-overrides/react-drawer-overrides';
+// List
+@import '@material/react-list/index.scss';
+@import './style-overrides/react-list-overrides';
 
 // ------------------------------------------------- //
 
-// material-components-web (not React integrated)
-@import "@material/slider/mdc-slider";
-
-// ------------------------------------------------- //
-
-/*
-  The MDC grid overlays the <Scene/>
-  This will cause mouse interaction problems
-  We need to move parts behind the scene to fix
-
-  Alternatively, consider creating two serpaerate grids?
-  Having one grid means it stretches across the entire screen
-  Having two serpaerate grids on the left and right side may leave space for the mouse interaction
-*/
-
-.grid-left {
-  position: fixed;
-  left: 0;
-  width: 20%
+.drawer-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.grid-right {
-  position: fixed;
-  right: 0;
-  width: 20%
+.drawer-app-content {
+  flex: auto;
+  overflow: auto;
 }
 
 // ------------------------------------------------- //
@@ -85,8 +76,32 @@
 
 // ------------------------------------------------- //
 
+// .geometries-list-item {
+//   box-sizing: border-box;
+//   display: inline-block;
+//   margin-bottom: 16px;
+//   white-space: nowrap;
+//   cursor: pointer;
+//   outline: none;
+//   -moz-user-select: none;
+//   -moz-user-select: none;
+//   position: relative;
+//   min-width: 20px;
+//   min-height: 20px;
+//   margin-left: 0;
+//   margin-right: 16px;
+// }
+
+// .geometries-list-item {
+//   box-sizing: border-box;
+//   position: relative;
+//   display: inline-block;
+//   white-space: nowrap;
+// }
+
+// ------------------------------------------------- //
+
 .canvas {
-  z-index: -1;
   position: fixed;
   top: 0;
   right: 0;

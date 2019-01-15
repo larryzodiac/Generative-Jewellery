@@ -1,0 +1,21 @@
+@import "@material/drawer/mixins";
+@import "colours";
+
+.drawer-alternate {
+  // Drawer
+  @include mdc-drawer-border-color($transparent);
+  @include mdc-drawer-divider-color($white);
+  @include mdc-drawer-surface-fill-color($blue);
+
+  //
+  @include mdc-drawer-title-ink-color($white);
+  @include mdc-drawer-subtitle-ink-color($white);
+
+  // list items
+  @include mdc-drawer-item-icon-ink-color($white);
+  @include mdc-drawer-item-text-ink-color($white);
+  @include mdc-drawer-item-activated-icon-ink-color($pink);
+  @include mdc-drawer-item-activated-text-ink-color($pink);
+
+  @include mdc-drawer-activated-overlay-color($white);
+}

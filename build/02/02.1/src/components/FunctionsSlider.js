@@ -1,13 +1,12 @@
 // ------------------------------------------------- //
 // Evan MacHale - N00150552
-// 09.01.19
-// Sub-menu for shape picker
+// 15.01.19
+// Function slider
 // ------------------------------------------------- //
 
 import React from 'react';
-import {Cell, Row} from '@material/react-layout-grid';
-import {Body1} from '@material/react-typography';
-import TextField, {HelperText, Input} from '@material/react-text-field';
+import ListItem, {ListItemText} from '@material/react-list';
+import TextField, {Input} from '@material/react-text-field';
 
 // ------------------------------------------------- //
 
@@ -37,7 +36,7 @@ import Slider from '@material-ui/lab/Slider';
 
 // ------------------------------------------------- //
 
-class FunctionSlider extends React.Component {
+class FunctionsSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value:1};
@@ -46,53 +45,39 @@ class FunctionSlider extends React.Component {
 
   handleChange = (event, value) => {
     this.setState({value});
-    // this.setState(prevState => ({flagged: prevState.flagged = true}));
   };
 
   render() {
     return (
-      <Row tag='section'>
-        <Cell>
-          <Row>
-            <Cell columns={12}>
-              <Body1>{this.props.name}</Body1>
-            </Cell>
-          </Row>
-          <Row>
-            <Cell columns={8}>
-              {/*
-                material-ui Slider:
-                // https://material-ui.com/lab/slider/
-                Simple alternative to:
-                // https://github.com/material-components/material-components-web/tree/master/packages/mdc-slider
-              */}
-              <Slider
-                className='slider'
-                max={this.props.max}
-                step={this.props.step}
-                value={this.state.value}
-                aria-labelledby='label'
-                onChange={this.handleChange}
-              />
-            </Cell>
-            <Cell columns={4}>
-              {/*
-                // https://github.com/material-components/material-components-web-react/tree/master/packages/text-field
-              */}
-              <TextField>
-                <Input
-                value={this.state.value}
-                onChange={(e) => this.setState({value: e.target.value})}/>
-              </TextField>
-            </Cell>
-          </Row>
-        </Cell>
-        <br/>
-      </Row>
+      <ListItem>
+        <ListItemText primaryText={this.props.name} />
+        {/*
+          material-ui Slider:
+          // https://material-ui.com/lab/slider/
+          Simple alternative to:
+          // https://github.com/material-components/material-components-web/tree/master/packages/mdc-slider
+        */}
+        <Slider
+          className='slider'
+          max={this.props.max}
+          step={this.props.step}
+          value={this.state.value}
+          aria-labelledby='label'
+          onChange={this.handleChange}
+        />
+        {/*
+          // https://github.com/material-components/material-components-web-react/tree/master/packages/text-field
+        */}
+        <TextField>
+          <Input
+          value={this.state.value}
+          onChange={(e) => this.setState({value: e.target.value})}/>
+        </TextField>
+      </ListItem>
     );
   }
 }
 
 // ------------------------------------------------- //
 
-export default FunctionSlider;
+export default FunctionsSlider;
