@@ -55,18 +55,38 @@ import './App.scss';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {drawerOpen:true, shape:null};
+    this.state = {
+      drawerOpen: true,
+      // For the Scene
+      geometry: 'Octahedron',
+      wireframe: false
+    };
     // This binding is necessary to make `this` work in the callback
     this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.geometryChange = this.geometryChange.bind(this);
   }
 
   toggleDrawer = () => {
-    this.setState(state => ({
-      drawerOpen: !state.drawerOpen
+    this.setState(prevState => ({
+      drawerOpen: !prevState.drawerOpen
     }));
   }
 
+  geometryChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.type === 'checkbox' ? 'wireframe' : 'geometry';
+    this.setState({
+      [name]: value
+    });
+  }
+
+  wireframeToggle = (event) => {
+    const wireframe = event.target.value
+  }
+
   render() {
+    console.log(this.state);
     return (
       <div className='drawer-container'>
         <Drawer
@@ -76,10 +96,16 @@ class App extends Component {
         >
           <DrawerContent>
             <ListGroup>
+
               <ListGroupSubheader tag='h2'>shapes</ListGroupSubheader>
-              <Geometries />
+              <Geometries
+                geometry={this.state.geometry}
+                wireframe={this.state.wireframe}
+                onChange={this.geometryChange}
+              />
               <ListGroupSubheader tag='h2'>Functions</ListGroupSubheader>
               <Functions />
+
             </ListGroup>
           </DrawerContent>
         </Drawer>
@@ -95,7 +121,7 @@ class App extends Component {
           />
 
           <TopAppBarFixedAdjust>
-            <Scene/>
+            <Scene wireframe={this.state.wireframe} geometry={this.state.geometry}/>
           </TopAppBarFixedAdjust>
         </DrawerAppContent>
       </div>

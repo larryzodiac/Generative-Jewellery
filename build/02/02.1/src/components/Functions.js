@@ -27,11 +27,6 @@ const functions_list = functions.map(f => <FunctionsSlider key={f.name} name={f.
 // ------------------------------------------------- //
 
 class Functions extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {shape:null};
-  }
-
   render () {
     return (
       <List className='list-alternate'>

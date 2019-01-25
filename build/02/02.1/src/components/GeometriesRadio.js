@@ -16,10 +16,10 @@ class Geometries extends Component {
       <ListItem>
         <Radio className='geometries-list-item' label={this.props.name} key={this.props.name}>
           <NativeRadioControl
-            name='shapes'
+            name='geometry'
             value={this.props.name}
             id={this.props.name}
-            onChange={(e) => this.setState({shape: e.target.value})}
+            onChange={this.props.onChange}
           />
         </Radio>
       </ListItem>

@@ -18,10 +18,12 @@ const OrbitControls = require('three-orbit-controls')(THREE);
 
 // ------------------------------------------------- //
 
+let scene, camera, renderer, controls;
+let shape;
+
 class Scene extends Component {
   // If mounted successfully
   componentDidMount() { // Runtime
-    let scene, camera, renderer, controls;
 
     const width = this.mount.clientWidth;
     const height = this.mount.clientHeight;
@@ -66,8 +68,8 @@ class Scene extends Component {
     /*
     Create Geometry here
     */
-    const octahedron = this.getOctahedron(1); // This will be our subdivide geometry call
-    scene.add(octahedron);
+    shape = this.getOctahedron(1); // This will be our subdivide geometry call
+    scene.add(shape);
     const plane = this.getPlane(1000,1000);
     scene.add(plane);
 
@@ -97,7 +99,7 @@ class Scene extends Component {
     this.renderer = renderer;
     this.controls = controls;
     // this.material = material;
-    this.octahedron = octahedron;
+    this.shape = shape;
 
     //
     this.mount.appendChild(this.renderer.domElement);
@@ -105,6 +107,13 @@ class Scene extends Component {
   }
 
   // ------------------------------------------------- //
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props !== prevProps) {
+      shape.material.wireframe = this.props.wireframe
+    }
+  }
 
   componentWillUnmount() {
     window.removeEventListener('resize');
@@ -135,7 +144,7 @@ class Scene extends Component {
     this.controls.update();
 
     // Animation
-    // this.octahedron.rotation.y +=0.01;
+    // this.shape.rotation.y +=0.01;
 
     // Without a render loop we wouldn't see anything.
     // Causes the renderer to draw the scene every time the screen is refreshed (60 fps).
@@ -156,7 +165,7 @@ class Scene extends Component {
   // Create a shape that cast shadows (but does not receive them)
   getOctahedron = (w,h) => {
     const geometry = new THREE.OctahedronGeometry(w, h);
-    const material = new THREE.MeshPhongMaterial();
+    const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
     material.color.setHex(0xff0266);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = true;

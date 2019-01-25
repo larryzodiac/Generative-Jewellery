@@ -26,30 +26,30 @@ const geometries = [
   {name:'Tetrahedron', image:'http://showcase.iadt.ie/assets/CC3/Headshot/N00152737_Profile.jpg'},
   {name:'Torus', image:'http://showcase.iadt.ie/assets/CC3/Headshot/N00153748_Profile.jpg'}
 ];
-// Passing Props to generate list
-const geometries_list = geometries.map(g => <GeometriesRadio key={g.name} name={g.name} image={g.image}/>);
 
 // ------------------------------------------------- //
 
 class Geometries extends Component {
   constructor(props) {
     super(props);
-    this.state = {shape:null, checked: false, indeterminate: false};
+    this.state = {
+      checked: false
+    };
   }
 
   render () {
+
+    // Passing Props to generate list
+    const geometries_list = geometries.map(g => <GeometriesRadio key={g.name} name={g.name} image={g.image} onChange={this.props.onChange}/>);
+
     return (
       <List className='list-alternate'>
         {geometries_list}
         <ListItem>
           <Checkbox
-            nativeControlId='my-checkbox'
+            name='wireframe'
             checked={this.state.checked}
-            indeterminate={this.state.indeterminate}
-            onChange={(e) => this.setState({
-              checked: e.target.checked,
-              indeterminate: e.target.indeterminate})
-            }
+            onChange={this.props.onChange}
           />
           <ListItemText primaryText='Wireframe' />
         </ListItem>
@@ -57,6 +57,11 @@ class Geometries extends Component {
     );
   }
 }
+
+// onChange={(e) => this.setState({
+//   checked: e.target.checked,
+//   indeterminate: e.target.indeterminate})
+// }
 
 // ------------------------------------------------- //
 
