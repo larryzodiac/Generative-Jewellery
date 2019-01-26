@@ -63,7 +63,6 @@ class App extends Component {
     };
     // This binding is necessary to make `this` work in the callback
     this.toggleDrawer = this.toggleDrawer.bind(this);
-    this.geometryChange = this.geometryChange.bind(this);
   }
 
   toggleDrawer = () => {
@@ -86,7 +85,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className='drawer-container'>
         <Drawer

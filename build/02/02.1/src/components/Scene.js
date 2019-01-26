@@ -22,6 +22,11 @@ let scene, camera, renderer, controls;
 let shape;
 
 class Scene extends Component {
+  constructor(props) {
+    super(props);
+    // This binding is necessary to make `this` work in the callback
+    this.getShape = this.getShape.bind(this);
+  }
   // If mounted successfully
   componentDidMount() { // Runtime
 
@@ -68,7 +73,7 @@ class Scene extends Component {
     /*
     Create Geometry here
     */
-    shape = this.getOctahedron(1); // This will be our subdivide geometry call
+    shape = this.getShape(1); // This will be our subdivide geometry call
     scene.add(shape);
     const plane = this.getPlane(1000,1000);
     scene.add(plane);
@@ -110,8 +115,16 @@ class Scene extends Component {
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props !== prevProps) {
+    if (this.props.wireframe !== prevProps.wireframe) {
       shape.material.wireframe = this.props.wireframe
+    }
+    if (this.props.geometry !== prevProps.geometry) {
+      // When radio shape changes -> remove + replace
+      scene.remove(shape);
+      shape.geometry.dispose();
+      shape.material.dispose();
+      shape = this.getShape(1);
+      scene.add(shape);
     }
   }
 
@@ -163,11 +176,38 @@ class Scene extends Component {
   }
 
   // Create a shape that cast shadows (but does not receive them)
-  getOctahedron = (w,h) => {
-    const geometry = new THREE.OctahedronGeometry(w, h);
+  getShape = (w,h) => {
+    let geometry;
+    switch (this.props.geometry) {
+      case 'Cone':
+        geometry = new THREE.ConeGeometry(w, h);
+        break;
+      case 'Cube':
+        geometry = new THREE.BoxGeometry(w, h);
+        break;
+      case 'Cylinder':
+        geometry = new THREE.CylinderGeometry(w, h);
+        break;
+      case 'Dodecahedron':
+        geometry = new THREE.DodecahedronGeometry(w, h);
+        break;
+      case 'Icosahedron':
+        geometry = new THREE.IcosahedronGeometry(w, h);
+        break;
+      case 'Octahedron':
+        geometry = new THREE.OctahedronGeometry(w, h);
+        break;
+      case 'Tetrahedron':
+        geometry = new THREE.TetrahedronGeometry(w, h);
+        break;
+      case 'Torus':
+        geometry = new THREE.TorusGeometry(w, h);
+        break;
+    }
     const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
     material.color.setHex(0xff0266);
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = `${this.props.geometry}`
     mesh.castShadow = true;
     mesh.receiveShadow = false;
     return mesh;
