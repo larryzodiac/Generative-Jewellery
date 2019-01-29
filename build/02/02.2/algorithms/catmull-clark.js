@@ -14,6 +14,9 @@ class SubdivisionModifier {
 // ------------------------------------------------- //
 
 SubdivisionModifier.prototype.modify = function(geometry) {
+  console.log('Source Geometry :');
+  console.log(geometry);
+
   geometry = geometry.clone();
 	geometry.mergeVertices();
   const iterations = this.subdivisions;
@@ -28,9 +31,6 @@ SubdivisionModifier.prototype.modify = function(geometry) {
 // ------------------------------------------------- //
 
 SubdivisionModifier.prototype.subdivide = function(geometry) {
-
-  console.log('Source Geometry :');
-  console.log(geometry);
 
   const sourceVertices = geometry.vertices;
   const sourceFaces = geometry.faces;
