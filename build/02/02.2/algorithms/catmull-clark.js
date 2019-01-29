@@ -199,7 +199,6 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
   const newVertices = vertexPoints.concat(edgePoints,facePoints);
   const newFaces = [];
   const newUVs = [];
-  const hasUvs = sourceUvs !== undefined && sourceUvs.length > 0;
 
   let uv, x0, x1, x2;
   let xe0 = new THREE.Vector2();
@@ -264,28 +263,26 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
     createNewFace(newFaces, face.c, edgePoint3, edgePoint2, facePoint);
 
     // create 4 new uv's
-		if (hasUvs) {
-			uv = sourceUvs[i];
-			x0 = uv[0];
-			x1 = uv[1];
-			x2 = uv[2];
-      // xe0.set(midpoint(x0.x, x1.x), midpoint(x0.y, x1.y));
-			// xe1.set(midpoint(x1.x, x2.x), midpoint(x1.y, x2.y));
-			// xe2.set(midpoint(x0.x, x2.x), midpoint(x0.y, x2.y));
-      // xf.set( ((x0.x + x1.x + x2.x)/3) , ((x0.y + x1.y + x2.y)/3) );
+		uv = sourceUvs[i];
+		x0 = uv[0];
+		x1 = uv[1];
+		x2 = uv[2];
+    // xe0.set(midpoint(x0.x, x1.x), midpoint(x0.y, x1.y));
+		// xe1.set(midpoint(x1.x, x2.x), midpoint(x1.y, x2.y));
+		// xe2.set(midpoint(x0.x, x2.x), midpoint(x0.y, x2.y));
+    // xf.set( ((x0.x + x1.x + x2.x)/3) , ((x0.y + x1.y + x2.y)/3) );
 
-      xe0.set(newVertices[edgePoint1].x, newVertices[edgePoint1].y);
-			xe1.set(newVertices[edgePoint2].x, newVertices[edgePoint2].y);
-			xe2.set(newVertices[edgePoint3].x, newVertices[edgePoint3].y);
-      xf.set(newVertices[facePoint].x, newVertices[facePoint].y);
+    xe0.set(newVertices[edgePoint1].x, newVertices[edgePoint1].y);
+		xe1.set(newVertices[edgePoint2].x, newVertices[edgePoint2].y);
+		xe2.set(newVertices[edgePoint3].x, newVertices[edgePoint3].y);
+    xf.set(newVertices[facePoint].x, newVertices[facePoint].y);
 
-      createNewUv(newUVs, x0, xe0, xf);
-      createNewUv(newUVs, x0, xe2, xf);
-      createNewUv(newUVs, x1, xe0, xf);
-      createNewUv(newUVs, x1, xe1, xf);
-      createNewUv(newUVs, x2, xe1, xf);
-      createNewUv(newUVs, x2, xe2, xf);
-		}
+    createNewUv(newUVs, x0, xe0, xf);
+    createNewUv(newUVs, x0, xe2, xf);
+    createNewUv(newUVs, x1, xe0, xf);
+    createNewUv(newUVs, x1, xe1, xf);
+    createNewUv(newUVs, x2, xe1, xf);
+    createNewUv(newUVs, x2, xe2, xf);
   }
 
   // console.log(sourceEdges);
@@ -298,7 +295,7 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
 
   geometry.vertices = newVertices;
   geometry.faces = newFaces;
-  if (hasUvs) geometry.faceVertexUvs[0] = newUVs;
+  geometry.faceVertexUvs[0] = newUVs;
 }
 
 // ------------------------------------------------- //
