@@ -13,8 +13,9 @@ class SubdivisionModifier {
 
 // ------------------------------------------------- //
 
-// Inheritence
 SubdivisionModifier.prototype.modify = function(geometry) {
+  console.log(geometry);
+  console.log(geometry.vertices);
   geometry = geometry.clone();
 	geometry.mergeVertices();
   const iterations = this.subdivisions;
@@ -33,6 +34,8 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
   const sourceVertices = geometry.vertices;
   const sourceFaces = geometry.faces;
   const sourceUvs = geometry.faceVertexUvs[0];
+
+  // console.log(geometry);
   // console.log(sourceVertices);
   // console.log(sourceFaces);
   // The vars we use to redraw our geometry.
@@ -172,7 +175,6 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
       facePointAvg.add(facePointsSurroundingVertex[i]);
     }
     const weight = (facePointsSurroundingVertex.length - 3) // (n-3)
-    console.log(weight);
     vertexPoint.multiplyScalar(weight);
     // edgePointAvg.multiplyScalar(1/connectingEdges.length);
     // edgePointAvg.multiplyScalar(2);
@@ -199,9 +201,10 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
   const hasUvs = sourceUvs !== undefined && sourceUvs.length > 0;
 
   let uv, x0, x1, x2;
-	const x3 = new THREE.Vector2();
-	const x4 = new THREE.Vector2();
-	const x5 = new THREE.Vector2();
+  let xe0 = new THREE.Vector2();
+	let xe1 = new THREE.Vector2();
+  let xe2 = new THREE.Vector2();
+  let xf = new THREE.Vector2();
 
   // console.log(newVertices);
   // console.log(sourceEdges);
@@ -227,6 +230,34 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
     The solution will be to draw a quad using two triangles, ughhhh kill me.
     */
 
+    // ------------------------------------------------- //
+    //                          x0
+    //                         / \
+    //                       /    \
+    //                     /       \
+    //                   /          \
+    //               xe0  \        / xe2      // Creates three quads
+    //               /      \ xf /    \
+    //             /          |        \
+    //           /           |          \
+    //         /            |            \
+    //      x1 - - - - - - xe1 - - - - - - x2
+    // ------------------------------------------------- //
+
+    // ------------------------------------------------- //
+    //                          x0
+    //                         / \
+    //                       /  | \
+    //                     /   |   \
+    //                   /     |    \
+    //               xe0  \   |    / xe2      // Need to divide quads into  two triangles
+    //               /      \ xf /    \
+    //             /       /  |  \     \
+    //           /      /    |      \   \
+    //         /    /       |         \  \
+    //      x1 - - - - - - xe1 - - - - - - x2
+    // ------------------------------------------------- //
+
     createNewFace(newFaces, face.a, edgePoint1, edgePoint3, facePoint);
     createNewFace(newFaces, face.b, edgePoint2, edgePoint1, facePoint);
     createNewFace(newFaces, face.c, edgePoint3, edgePoint2, facePoint);
@@ -237,15 +268,26 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
 			x0 = uv[0];
 			x1 = uv[1];
 			x2 = uv[2];
-			x3.set(midpoint(x0.x, x1.x), midpoint(x0.y, x1.y));
-			x4.set(midpoint(x1.x, x2.x), midpoint(x1.y, x2.y));
-			x5.set(midpoint(x0.x, x2.x), midpoint(x0.y, x2.y));
-			newUv(newUVs, x3, x4, x5);
-			newUv(newUVs, x0, x3, x5);
-			newUv(newUVs, x1, x4, x3);
-			newUv(newUVs, x2, x5, x4);
+      // xe0.set(midpoint(x0.x, x1.x), midpoint(x0.y, x1.y));
+			// xe1.set(midpoint(x1.x, x2.x), midpoint(x1.y, x2.y));
+			// xe2.set(midpoint(x0.x, x2.x), midpoint(x0.y, x2.y));
+      // xf.set( ((x0.x + x1.x + x2.x)/3) , ((x0.y + x1.y + x2.y)/3) );
+
+      xe0.set(newVertices[edgePoint1].x, newVertices[edgePoint1].y);
+			xe1.set(newVertices[edgePoint2].x, newVertices[edgePoint2].y);
+			xe2.set(newVertices[edgePoint3].x, newVertices[edgePoint3].y);
+      xf.set(newVertices[facePoint].x, newVertices[facePoint].y);
+
+      createNewUv(newUVs, x0, xe0, xf);
+      createNewUv(newUVs, x0, xe2, xf);
+      createNewUv(newUVs, x1, xe0, xf);
+      createNewUv(newUVs, x1, xe1, xf);
+      createNewUv(newUVs, x2, xe1, xf);
+      createNewUv(newUVs, x2, xe2, xf);
 		}
   }
+
+  console.log(geometry);
 
   // console.log(sourceEdges);
 

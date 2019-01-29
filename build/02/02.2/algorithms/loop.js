@@ -34,7 +34,7 @@ SubdivisionModifier.prototype.subdivide = (geometry) => {
   const sourceFaces = geometry.faces;
   const sourceUvs = geometry.faceVertexUvs[0];
 
-  let newVertices, newFaces, newUVs = [];
+  let newVertices, newFaces, newUvs = [];
 
   const vertexHolder = new THREE.Vector3();
 
@@ -171,15 +171,15 @@ SubdivisionModifier.prototype.subdivide = (geometry) => {
 			x3.set(midpoint(x0.x, x1.x), midpoint(x0.y, x1.y));
 			x4.set(midpoint(x1.x, x2.x), midpoint(x1.y, x2.y));
 			x5.set(midpoint(x0.x, x2.x), midpoint(x0.y, x2.y));
-			newUv(newUVs, x3, x4, x5);
-			newUv(newUVs, x0, x3, x5);
-			newUv(newUVs, x1, x4, x3);
-			newUv(newUVs, x2, x5, x4);
+			createNewUv(newUvs, x3, x4, x5);
+			createNewUv(newUvs, x0, x3, x5);
+			createNewUv(newUvs, x1, x4, x3);
+			createNewUv(newUvs, x2, x5, x4);
 		}
   } // End for loop
   // Overwrite old arrays
   geometry.vertices = newVertices;
   geometry.faces = newFaces;
-  if (hasUvs) geometry.faceVertexUvs[0] = newUVs;
+  if (hasUvs) geometry.faceVertexUvs[0] = newUvs;
   // console.log('done');
 }

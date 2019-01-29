@@ -70,7 +70,7 @@ const getFacePoint = (a,b,c,sourceEdges,facePoints) => {
   const vertexIndexB = Math.max(a, b);
   const key = vertexIndexA + "_" + vertexIndexB;
   const currentEdge = sourceEdges[key];
-  for (var i = 0; i < currentEdge.faces.length; i++) {
+  for (let i = 0; i < currentEdge.faces.length; i++) {
     const currentFace = currentEdge.faces[i].currentFace;
     // if (currentFace.a === a && currentFace.b === b && currentFace.c === c) {
     //   return currentEdge.faces[i].facePoint;
@@ -81,7 +81,7 @@ const getFacePoint = (a,b,c,sourceEdges,facePoints) => {
       // console.log(currentEdge.faces[i].facePoint);
       // console.log(facePoints.indexOf(currentEdge.faces[i].facePoint));
       // return facePoints.indexOf(currentEdge.faces[i].facePoint);
-      for (var i = 0; i < facePoints.length; i++) {
+      for (let i = 0; i < facePoints.length; i++) {
         if (matchedFacePoint.equals(facePoints[i])) {
           // console.log(i);
           return i;
@@ -98,7 +98,7 @@ const getEdgePoint = (a, b, sourceEdges, edgePoints) => {
   const vertexIndexB = Math.max(a, b);
   const key = vertexIndexA + "_" + vertexIndexB;
   const matchedEdgePoint = sourceEdges[key].edgePoint;
-  for (var i = 0; i < edgePoints.length; i++) {
+  for (let = i = 0; i < edgePoints.length; i++) {
     if (matchedEdgePoint.equals(edgePoints[i])) {
       // console.log(i);
       return i;
@@ -192,7 +192,10 @@ const getEdge = (a, b, sourceEdges) => {
 /*
   UVs
 */
-const newUv = (newUvs, a, b, c) => {
+const createNewUv = (newUvs, a, b, c) => {
+  // console.log(a);
+  // console.log(b);
+  // console.log(c);
   newUvs.push( [ a.clone(), b.clone(), c.clone() ] );
 }
 
