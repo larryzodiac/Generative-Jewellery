@@ -13,19 +13,21 @@
 
 import React, { Component } from 'react';
 import * as THREE from 'three';
+import SubdivisionModifier from './loop';
 // import * as OrbitControls from 'three-orbit-controls'; // Research later, no time
 const OrbitControls = require('three-orbit-controls')(THREE);
 
 // ------------------------------------------------- //
 
 let scene, camera, renderer, controls;
-let shape;
+let shape, smooth, geometry, material;
 
 class Scene extends Component {
   constructor(props) {
     super(props);
     // This binding is necessary to make `this` work in the callback
-    this.getShape = this.getShape.bind(this);
+    this.getGeometry = this.getGeometry.bind(this);
+    this.generateSubdivision = this.generateSubdivision.bind(this);
   }
   // If mounted successfully
   componentDidMount() { // Runtime
@@ -73,8 +75,8 @@ class Scene extends Component {
     /*
     Create Geometry here
     */
-    shape = this.getShape(1); // This will be our subdivide geometry call
-    scene.add(shape);
+    const s = this.generateSubdivision();
+    scene.add(s);
     const plane = this.getPlane(1000,1000);
     scene.add(plane);
 
@@ -104,7 +106,7 @@ class Scene extends Component {
     this.renderer = renderer;
     this.controls = controls;
     // this.material = material;
-    this.shape = shape;
+    this.s = s;
 
     //
     this.mount.appendChild(this.renderer.domElement);
@@ -123,8 +125,7 @@ class Scene extends Component {
       scene.remove(shape);
       shape.geometry.dispose();
       shape.material.dispose();
-      shape = this.getShape(1);
-      scene.add(shape);
+      this.generateSubdivision();
     }
   }
 
@@ -176,7 +177,7 @@ class Scene extends Component {
   }
 
   // Create a shape that cast shadows (but does not receive them)
-  getShape = (w,h) => {
+  getGeometry = (w,h) => {
     let geometry;
     switch (this.props.geometry) {
       case 'Cone':
@@ -204,13 +205,7 @@ class Scene extends Component {
         geometry = new THREE.TorusGeometry(w, h);
         break;
     }
-    const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
-    material.color.setHex(0xff0266);
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = `${this.props.geometry}`
-    mesh.castShadow = true;
-    mesh.receiveShadow = false;
-    return mesh;
+    return geometry;
   }
 
   // Create a plane that receives shadows (but does not cast them)
@@ -223,6 +218,46 @@ class Scene extends Component {
     mesh.position.y = -2;
     mesh.receiveShadow = true;
   	return mesh;
+  }
+
+  // Invoke subdivision modifier.
+  generateSubdivision = () => {
+    // if ( shape !== undefined ) {
+    //   // Removes The object from memory.
+    //   // So we can replace it with new object.
+    //   shape.dispose();
+    //   smooth.dispose();
+    //   scene.remove(shape);
+    // }
+    const modifier = new SubdivisionModifier(this.props.subdivisions);
+    // New geometry to be added in place of the old.
+    geometry = this.getGeometry(1); // This will be our subdivide geometry call
+    const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
+    material.color.setHex(0xff0266);
+    // Scaling
+    const params = geometry.parameters;
+    if ( geometry.scale ) {
+      geometry.scale( params.scale, params.scale, params.scale );
+    }
+    // Smoothing
+    // Smooth out the shape ~ adding more vertices/faces.
+    smooth = modifier.modify(geometry);
+    const faceIndices = ['a','b','c'];
+    for (let i = 0; i < smooth.faces.length; i++) {
+      let face  = smooth.faces[ i ];
+      // 3 for face indices x, y, z.
+      for (let j = 0; j < 3; j ++) {
+        let vertexIndex = face[faceIndices[j]];
+        let vertex = smooth.vertices[vertexIndex];
+      }
+    }
+    // Adding to scene.
+    shape = new THREE.Mesh(smooth,material);
+    shape.name = `${this.props.geometry}`
+    shape.castShadow = true;
+    shape.receiveShadow = false;
+    shape.scale.setScalar(params.meshScale ? params.meshScale : 1);
+    return shape;
   }
 
   // ------------------------------------------------- //
