@@ -23,6 +23,7 @@ if ( WEBGL.isWebGLAvailable() === false ) {
 // Runtime
 const draw = () => {
   scene = new THREE.Scene();
+  scene.background = new THREE.Color( 0xfff );
 
   // THREE.CameraType(FOV,aspectRatio,nearClipPlane,farClipPlane);
 	camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,1000);
@@ -33,6 +34,32 @@ const draw = () => {
 
   // Add geometry in place of old/undefined geometry
   generateSubdivision();
+
+  // Lights
+  const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+  // hemisphereLight.color.setHSL(0.6, 1, 0.6);
+  // hemisphereLight.groundColor.setHSL(0.095, 1, 0.75);
+  hemisphereLight.position.set(0, 100, 0);
+  scene.add(hemisphereLight);
+  const hemiLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 10);
+  scene.add(hemiLightHelper);
+
+  // Create a DirectionalLight and turn on shadows for the light
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
+  // directionalLight.color.setHSL(0.1, 1, 0.95);
+  directionalLight.position.set(-0.5, 1.75, 0.5);
+  directionalLight.position.multiplyScalar(20);
+  directionalLight.castShadow = true; // default false
+  scene.add(directionalLight);
+
+  // Set up shadow properties for the light
+  directionalLight.shadow.mapSize.width = 2048;
+  directionalLight.shadow.mapSize.height = 2048;
+  directionalLight.shadow.camera.near = 0.5;
+  directionalLight.shadow.camera.far = 500;
+
+  const dirLightHeper = new THREE.DirectionalLightHelper(directionalLight, 10);
+  scene.add(dirLightHeper);
 
   // Magic - Create our WebGL render instance.
 	renderer = new THREE.WebGLRenderer();
@@ -70,7 +97,7 @@ const update = (renderer, scene, camera, controls) => {
   // Oribit changes will update the rendered scene.
 	controls.update();
   // Little cool animate?
-  mesh.rotation.y += 0.01;
+  // mesh.rotation.y += 0.01;
 
   // Without a render loop we wouldn't see anything.
   // Causes the renderer to draw the scene every time the screen is refreshed (60 fps).
@@ -134,7 +161,7 @@ const generateSubdivision = () => {
   // N.B With new level of subdivision.
   geometry = new THREE.OctahedronGeometry(1);
   geometry.name = `Evan's Geometry`;
-  material = new THREE.MeshBasicMaterial({color:'red'});
+  material = new THREE.MeshPhongMaterial({color:'red'});
   // Scaling
   const params = geometry.parameters;
   if ( params.scale ) {

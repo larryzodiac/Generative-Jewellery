@@ -200,11 +200,11 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
   const newFaces = [];
   const newUVs = [];
 
-  let uv, x0, x1, x2;
-  let xe0 = new THREE.Vector2();
-	let xe1 = new THREE.Vector2();
-  let xe2 = new THREE.Vector2();
-  let xf = new THREE.Vector2();
+  let uv, a, b, c;
+  let e1 = new THREE.Vector2();
+	let e2 = new THREE.Vector2();
+  let e3 = new THREE.Vector2();
+  let f = new THREE.Vector2();
 
   // console.log(newVertices);
   // console.log(sourceEdges);
@@ -264,25 +264,25 @@ SubdivisionModifier.prototype.subdivide = function(geometry) {
 
     // create 4 new uv's
 		uv = sourceUvs[i];
-		x0 = uv[0];
-		x1 = uv[1];
-		x2 = uv[2];
-    // xe0.set(midpoint(x0.x, x1.x), midpoint(x0.y, x1.y));
-		// xe1.set(midpoint(x1.x, x2.x), midpoint(x1.y, x2.y));
-		// xe2.set(midpoint(x0.x, x2.x), midpoint(x0.y, x2.y));
-    // xf.set( ((x0.x + x1.x + x2.x)/3) , ((x0.y + x1.y + x2.y)/3) );
 
-    xe0.set(newVertices[edgePoint1].x, newVertices[edgePoint1].y);
-		xe1.set(newVertices[edgePoint2].x, newVertices[edgePoint2].y);
-		xe2.set(newVertices[edgePoint3].x, newVertices[edgePoint3].y);
-    xf.set(newVertices[facePoint].x, newVertices[facePoint].y);
+    a = uv[0];
+    b = uv[1];
+    c = uv[2];
+    e1.set(midpoint(a.x, b.x), midpoint(a.y, b.y));
+    e2.set(midpoint(b.x, c.x), midpoint(b.y, c.y));
+    e3.set(midpoint(a.x, c.x), midpoint(a.y, c.y));
+    f.set( (Math.abs(a.x + b.x + c.x)/3) , (Math.abs(a.y + b.y + c.y)/3) );
+    // e1.set(newVertices[edgePoint1].x, newVertices[edgePoint1].y);
+		// e2.set(newVertices[edgePoint2].x, newVertices[edgePoint2].y);
+		// e3.set(newVertices[edgePoint3].x, newVertices[edgePoint3].y);
+    // f.set(newVertices[facePoint].x, newVertices[facePoint].y);
 
-    createNewUv(newUVs, x0, xe0, xf);
-    createNewUv(newUVs, x0, xe2, xf);
-    createNewUv(newUVs, x1, xe0, xf);
-    createNewUv(newUVs, x1, xe1, xf);
-    createNewUv(newUVs, x2, xe1, xf);
-    createNewUv(newUVs, x2, xe2, xf);
+    createNewUv(newUVs, a, e1, f);
+    createNewUv(newUVs, a, e3, f);
+    createNewUv(newUVs, b, e2, f);
+    createNewUv(newUVs, b, e1, f);
+    createNewUv(newUVs, c, e3, f);
+    createNewUv(newUVs, c, e2, f);
   }
 
   // console.log(sourceEdges);
