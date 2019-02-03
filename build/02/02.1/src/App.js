@@ -59,7 +59,8 @@ class App extends Component {
       drawerOpen: true,
       // For the Scene
       geometry: 'Octahedron',
-      wireframe: false
+      wireframe: false,
+      subdivisions: 0
     };
     // This binding is necessary to make `this` work in the callback
     this.toggleDrawer = this.toggleDrawer.bind(this);
@@ -119,7 +120,7 @@ class App extends Component {
           />
 
           <TopAppBarFixedAdjust>
-            <Scene wireframe={this.state.wireframe} geometry={this.state.geometry}/>
+            <Scene geometry={this.state.geometry} subdivisions={this.state.subdivisions} wireframe={this.state.wireframe}/>
           </TopAppBarFixedAdjust>
         </DrawerAppContent>
       </div>

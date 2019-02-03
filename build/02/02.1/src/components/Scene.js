@@ -13,19 +13,21 @@
 
 import React, { Component } from 'react';
 import * as THREE from 'three';
+// import SubdivisionModifier from './loop';
 // import * as OrbitControls from 'three-orbit-controls'; // Research later, no time
 const OrbitControls = require('three-orbit-controls')(THREE);
 
 // ------------------------------------------------- //
 
 let scene, camera, renderer, controls;
-let shape;
+let shape, smooth, geometry, material;
 
 class Scene extends Component {
   constructor(props) {
     super(props);
     // This binding is necessary to make `this` work in the callback
-    this.getShape = this.getShape.bind(this);
+    this.getGeometry = this.getGeometry.bind(this);
+    this.generateSubdivision = this.generateSubdivision.bind(this);
   }
   // If mounted successfully
   componentDidMount() { // Runtime
@@ -73,10 +75,11 @@ class Scene extends Component {
     /*
     Create Geometry here
     */
-    shape = this.getShape(1); // This will be our subdivide geometry call
-    scene.add(shape);
     const plane = this.getPlane(1000,1000);
     scene.add(plane);
+    geometry = this.getGeometry(1);
+    shape = this.generateSubdivision(geometry); // This will be our subdivide geometry call
+    scene.add(shape);
 
     // Magic - Create our WebGL render instance.
     renderer = new THREE.WebGLRenderer({antialias:true});
@@ -123,7 +126,9 @@ class Scene extends Component {
       scene.remove(shape);
       shape.geometry.dispose();
       shape.material.dispose();
-      shape = this.getShape(1);
+      //
+      geometry = this.getGeometry(1);
+      shape = this.generateSubdivision(geometry);
       scene.add(shape);
     }
   }
@@ -176,7 +181,7 @@ class Scene extends Component {
   }
 
   // Create a shape that cast shadows (but does not receive them)
-  getShape = (w,h) => {
+  getGeometry = (w,h) => {
     let geometry;
     switch (this.props.geometry) {
       case 'Cone':
@@ -204,13 +209,7 @@ class Scene extends Component {
         geometry = new THREE.TorusGeometry(w, h);
         break;
     }
-    const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
-    material.color.setHex(0xff0266);
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = `${this.props.geometry}`
-    mesh.castShadow = true;
-    mesh.receiveShadow = false;
-    return mesh;
+    return geometry;
   }
 
   // Create a plane that receives shadows (but does not cast them)
@@ -223,6 +222,17 @@ class Scene extends Component {
     mesh.position.y = -2;
     mesh.receiveShadow = true;
   	return mesh;
+  }
+
+  //
+  generateSubdivision = (geometry) => {
+    const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
+    material.color.setHex(0xff0266);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = `${this.props.geometry}`
+    mesh.castShadow = true;
+    mesh.receiveShadow = false;
+    return mesh;
   }
 
   // ------------------------------------------------- //
