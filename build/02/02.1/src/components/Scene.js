@@ -13,7 +13,7 @@
 
 import React, { Component } from 'react';
 import * as THREE from 'three';
-// import SubdivisionModifier from './loop';
+import SubdivisionModifier from './algorithm/loop';
 // import * as OrbitControls from 'three-orbit-controls'; // Research later, no time
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -107,7 +107,7 @@ class Scene extends Component {
     this.renderer = renderer;
     this.controls = controls;
     // this.material = material;
-    this.s = s;
+    this.shape = shape;
 
     //
     this.mount.appendChild(this.renderer.domElement);
@@ -121,7 +121,7 @@ class Scene extends Component {
     if (this.props.wireframe !== prevProps.wireframe) {
       shape.material.wireframe = this.props.wireframe
     }
-    if (this.props.geometry !== prevProps.geometry) {
+    if (this.props.geometry !== prevProps.geometry || this.props.subdivisions !== prevProps.subdivisions) {
       // When radio shape changes -> remove + replace
       scene.remove(shape);
       shape.geometry.dispose();
@@ -139,6 +139,8 @@ class Scene extends Component {
     this.mount.removeChild(this.renderer.domElement);
   }
 
+  // ------------------------------------------------- //
+
   start = () => {
     if (!this.frameId) {
       this.frameId = requestAnimationFrame(this.update);
@@ -148,8 +150,6 @@ class Scene extends Component {
   stop = () => {
     cancelAnimationFrame(this.frameId);
   }
-
-  // ------------------------------------------------- //
 
   // Animation loop.
   update = () => {
@@ -172,6 +172,7 @@ class Scene extends Component {
 
   // ------------------------------------------------- //
 
+  // Resize canvas
   handleResize = () => {
     const width = this.mount.clientWidth;
     const height = this.mount.clientHeight;
@@ -180,7 +181,7 @@ class Scene extends Component {
     this.camera.updateProjectionMatrix();
   }
 
-  // Create a shape that cast shadows (but does not receive them)
+  // Create a geometry for use in creating a mesh
   getGeometry = (w,h) => {
     let geometry;
     switch (this.props.geometry) {
@@ -224,11 +225,33 @@ class Scene extends Component {
   	return mesh;
   }
 
-  //
+  // Pass geometry to be modified then return mesh to be added to the scene
   generateSubdivision = (geometry) => {
+
+    // Invoke modifier
+    const modifier = new SubdivisionModifier(this.props.subdivisions);
+    // Create material
     const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
     material.color.setHex(0xff0266);
-    const mesh = new THREE.Mesh(geometry, material);
+    // Scaling
+    const params = geometry.parameters;
+    if ( params.scale ) {
+      geometry.scale( params.scale, params.scale, params.scale );
+    }
+    // Smoothing
+    smooth = modifier.modify(geometry);
+    const faceIndices = ['a','b','c'];
+    for (let i = 0; i < smooth.faces.length; i++) {
+      let face  = smooth.faces[ i ];
+      // 3 for face indices x, y, z.
+      for (let j = 0; j < 3; j ++) {
+        let vertexIndex = face[faceIndices[j]];
+        let vertex = smooth.vertices[vertexIndex];
+      }
+    }
+    //
+    const mesh = new THREE.Mesh(smooth, material);
+    mesh.scale.setScalar(params.meshScale ? params.meshScale : 1);
     mesh.name = `${this.props.geometry}`
     mesh.castShadow = true;
     mesh.receiveShadow = false;

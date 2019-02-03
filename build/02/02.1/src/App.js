@@ -28,7 +28,7 @@ import React, { Component } from 'react';
 // } from '@material/react-typography';
 import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
 import Drawer, {DrawerAppContent, DrawerContent, DrawerHeader, DrawerTitle} from '@material/react-drawer';
-import {ListGroup, ListGroupSubheader} from '@material/react-list';
+import List, { ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader, ListDivider } from '@material/react-list';
 
 /*
   Problem loading Icons via JavaScript
@@ -42,8 +42,8 @@ import MaterialIcon from '@material/react-material-icon';
 
 // My Components
 import Scene from './components/Scene';
-import Geometries from './components/Geometries';
-import Functions from './components/Functions';
+import GeometryList from './components/GeometryList';
+import FunctionList from './components/FunctionList';
 
 // ------------------------------------------------- //
 
@@ -72,17 +72,39 @@ class App extends Component {
     }));
   }
 
-  geometryChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.type === 'checkbox' ? 'wireframe' : 'geometry';
-    this.setState({
-      [name]: value
-    });
-  }
+  // handleChange = (event) => {
+  //   const name = event.target.type === 'checkbox' ? 'wireframe' : event.target.name;
+  //   const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+  //   let name;
+  //   name = event.target.getAttribute('name')
+  //   console.log(event.target.type);
+  //   this.setState({
+  //     [name]: value
+  //   });
+  // }
 
-  wireframeToggle = (event) => {
-    const wireframe = event.target.value
+  handleChange = (event, sliderValue) => {
+    /*
+      event.target when slider is changed is an <li> element
+      It does not have event.target.value/name
+      However the value of the slider may be passed directly as sliderValue
+      This does not appply to the other targets as they are <input>
+      See https://material-ui.com/lab/slider/
+    */
+    // let name;
+    // switch (event.target.name) {
+    //   case undefined:
+    //     name = 'subdivisions';
+    //     break;
+    //   default:
+    //     name = event.target.name;
+    // }
+    const name = event.target.type === 'checkbox' ? 'wireframe' : event.target.name;
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    this.setState({
+      [name]: value,
+      subdivisions: sliderValue
+    });
   }
 
   render() {
@@ -95,16 +117,20 @@ class App extends Component {
         >
           <DrawerContent>
             <ListGroup>
-
-              <ListGroupSubheader tag='h2'>shapes</ListGroupSubheader>
-              <Geometries
-                geometry={this.state.geometry}
-                wireframe={this.state.wireframe}
-                onChange={this.geometryChange}
-              />
-              <ListGroupSubheader tag='h2'>Functions</ListGroupSubheader>
-              <Functions />
-
+              <List>
+                <GeometryList
+                  geometry={this.state.geometry}
+                  wireframe={this.state.wireframe}
+                  onChange={this.handleChange}
+                />
+              </List>
+              <ListDivider />
+              <List>
+                <FunctionList
+                  subdivisions={this.state.subdivisions}
+                  onChange={this.handleChange}
+                />
+              </List>
             </ListGroup>
           </DrawerContent>
         </Drawer>

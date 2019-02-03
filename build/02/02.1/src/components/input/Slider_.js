@@ -5,8 +5,8 @@
 // ------------------------------------------------- //
 
 import React from 'react';
-import ListItem, {ListItemText} from '@material/react-list';
-import TextField, {Input} from '@material/react-text-field';
+import { ListItem, ListItemText, ListItemMeta } from '@material/react-list';
+import TextField, { Input } from '@material/react-text-field';
 
 // ------------------------------------------------- //
 
@@ -36,48 +36,51 @@ import Slider from '@material-ui/lab/Slider';
 
 // ------------------------------------------------- //
 
-class FunctionsSlider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value:1};
-    this.handleChange = this.handleChange.bind(this);
-  }
+/*
+  material-ui Slider:
+  https://material-ui.com/lab/slider/
+  Simple alternative to:
+  https://github.com/material-components/material-components-web/tree/master/packages/mdc-slider
+*/
 
-  handleChange = (event, value) => {
-    this.setState({value});
+class Slider_ extends React.Component {
+  state = {
+    value: 3,
   };
 
   render() {
     return (
-      <ListItem>
-        <ListItemText primaryText={this.props.name} />
-        {/*
-          material-ui Slider:
-          // https://material-ui.com/lab/slider/
-          Simple alternative to:
-          // https://github.com/material-components/material-components-web/tree/master/packages/mdc-slider
-        */}
-        <Slider
-          className='slider'
-          max={this.props.max}
-          step={this.props.step}
-          value={this.state.value}
-          aria-labelledby='label'
-          onChange={this.handleChange}
-        />
-        {/*
-          // https://github.com/material-components/material-components-web-react/tree/master/packages/text-field
-        */}
-        <TextField>
-          <Input
-          value={this.state.value}
-          onChange={(e) => this.setState({value: e.target.value})}/>
-        </TextField>
-      </ListItem>
+      <React.Fragment>
+        <ListItem>
+          <ListItemText primaryText={this.props.name} />
+          <ListItemMeta meta={`${this.props.value}`} />
+          {/*
+            <ListItemMeta meta=
+            <TextField dense={true}>
+              <Input
+                name='slider'
+                value={this.props.value}
+                onChange={this.props.onChange}
+              />
+            </TextField>
+          />
+          */}
+        </ListItem>
+        <ListItem>
+          <Slider
+            name='sliderWow'
+            max={this.props.max}
+            step={this.props.step}
+            value={this.props.value}
+            aria-labelledby='label'
+            onChange={this.props.onChange}
+          />
+        </ListItem>
+      </React.Fragment>
     );
   }
 }
 
 // ------------------------------------------------- //
 
-export default FunctionsSlider;
+export default Slider_;
