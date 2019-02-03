@@ -107,7 +107,7 @@ class Scene extends Component {
     this.renderer = renderer;
     this.controls = controls;
     // this.material = material;
-    this.shape = shape;
+    this.s = s;
 
     //
     this.mount.appendChild(this.renderer.domElement);
