@@ -8,7 +8,6 @@
 import * as THREE from 'three';
 import {
   generateLookupsLoop,
-  processEdgeLoop,
   newFace,
   getEdge,
   createNewUv,

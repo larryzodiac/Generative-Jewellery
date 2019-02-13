@@ -11,7 +11,7 @@ import Checkbox from '@material/react-checkbox';
 // ------------------------------------------------- //
 
 // My components
-import Radio_ from './input/Radio_';
+import Radio from './input/Radio_';
 
 // ------------------------------------------------- //
 
@@ -38,7 +38,7 @@ class GeometryList extends Component {
     // Passing Props to generate list
     const geometries_list = geometries.map(g => {
       return (
-        <Radio_
+        <Radio
           key={g.name}
           name={g.name}
           image={g.image}

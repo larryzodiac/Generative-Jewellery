@@ -5,12 +5,11 @@
 // ------------------------------------------------- //
 
 import React, { Component } from 'react';
-import { ListItem, ListItemText, ListItemMeta } from '@material/react-list';
 
 // ------------------------------------------------- //
 
 // My components
-import Slider_ from './input/Slider_';
+import Slider from './input/Slider_';
 
 // ------------------------------------------------- //
 
@@ -26,7 +25,7 @@ class FunctionList extends Component {
     // Passing Props to generate list
     const functions_list = functions.map(f => {
       return (
-        <Slider_
+        <Slider
           key={f.name}
           label={f.label}
           name={f.name}

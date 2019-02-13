@@ -6,7 +6,6 @@
 
 import React from 'react';
 import { ListItem, ListItemText, ListItemMeta } from '@material/react-list';
-import TextField, { Input } from '@material/react-text-field';
 
 // ------------------------------------------------- //
 

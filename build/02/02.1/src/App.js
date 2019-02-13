@@ -10,25 +10,9 @@
 
 import React, { Component } from 'react';
 // Material Design Components
-import {Cell, Grid, Row} from '@material/react-layout-grid';
-// import {
-//   Body1,
-//   Body2,
-//   Button,
-//   Caption,
-//   Headline1,
-//   Headline2,
-//   Headline3,
-//   Headline4,
-//   Headline5,
-//   Headline6,
-//   Overline,
-//   Subtitle1,
-//   Subtitle2,
-// } from '@material/react-typography';
 import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
 import Drawer, {DrawerAppContent, DrawerContent, DrawerHeader, DrawerTitle} from '@material/react-drawer';
-import List, { ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader, ListDivider } from '@material/react-list';
+import List, { ListGroup, ListDivider } from '@material/react-list';
 
 /*
   Problem loading Icons via JavaScript

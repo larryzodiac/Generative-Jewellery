@@ -20,7 +20,7 @@ const OrbitControls = require('three-orbit-controls')(THREE);
 // ------------------------------------------------- //
 
 let scene, camera, renderer, controls;
-let shape, smooth, geometry, material;
+let shape, smooth, geometry;
 
 class Scene extends Component {
   constructor(props) {
@@ -220,6 +220,8 @@ class Scene extends Component {
       case 'Torus':
         geometry = new THREE.TorusGeometry(w, h);
         break;
+      default:
+        geometry = new THREE.BoxGeometry(w, h);
     }
     return geometry;
   }
@@ -255,15 +257,16 @@ class Scene extends Component {
     }
     // Smoothing
     smooth = modifier.modify(geometry);
-    const faceIndices = ['a','b','c'];
-    for (let i = 0; i < smooth.faces.length; i++) {
-      let face  = smooth.faces[ i ];
-      // 3 for face indices x, y, z.
-      for (let j = 0; j < 3; j ++) {
-        let vertexIndex = face[faceIndices[j]];
-        let vertex = smooth.vertices[vertexIndex];
-      }
-    }
+    // Unsure if I'm to take this following bit out, we'll see. React doesn't like it
+    // const faceIndices = ['a','b','c'];
+    // for (let i = 0; i < smooth.faces.length; i++) {
+    //   let face  = smooth.faces[ i ];
+    //   // 3 for face indices x, y, z.
+    //   for (let j = 0; j < 3; j ++) {
+    //     let vertexIndex = face[faceIndices[j]];
+    //     let vertex = smooth.vertices[vertexIndex];
+    //   }
+    // }
     //
     const mesh = new THREE.Mesh(smooth, material);
     mesh.scale.setScalar(params.meshScale ? params.meshScale : 1);
