@@ -45,14 +45,14 @@ import Slider from '@material-ui/lab/Slider';
 
 class Slider_ extends React.Component {
   state = {
-    value: 3,
+    value: 0,
   };
 
   render() {
     return (
       <React.Fragment>
         <ListItem>
-          <ListItemText primaryText={this.props.name} />
+          <ListItemText primaryText={this.props.label} />
           <ListItemMeta meta={`${this.props.value}`} />
           {/*
             <ListItemMeta meta=
@@ -66,9 +66,9 @@ class Slider_ extends React.Component {
           />
           */}
         </ListItem>
-        <ListItem>
+        <ListItem id={this.props.name}>
           <Slider
-            name='sliderWow'
+            min={this.props.min}
             max={this.props.max}
             step={this.props.step}
             value={this.props.value}

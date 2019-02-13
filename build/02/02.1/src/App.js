@@ -60,7 +60,10 @@ class App extends Component {
       // For the Scene
       geometry: 'Octahedron',
       wireframe: false,
-      subdivisions: 0
+      subdivisions: 0,
+      adjacent_weight: 0.125,
+      edge_point_weight: 0.375,
+      connecting_edges_weight: 4
     };
     // This binding is necessary to make `this` work in the callback
     this.toggleDrawer = this.toggleDrawer.bind(this);
@@ -72,18 +75,7 @@ class App extends Component {
     }));
   }
 
-  // handleChange = (event) => {
-  //   const name = event.target.type === 'checkbox' ? 'wireframe' : event.target.name;
-  //   const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-  //   let name;
-  //   name = event.target.getAttribute('name')
-  //   console.log(event.target.type);
-  //   this.setState({
-  //     [name]: value
-  //   });
-  // }
-
-  handleChange = (event, sliderValue) => {
+  handleChange = (event, slider_value) => {
     /*
       event.target when slider is changed is an <li> element
       It does not have event.target.value/name
@@ -99,12 +91,18 @@ class App extends Component {
     //   default:
     //     name = event.target.name;
     // }
+    const id = event.target.id;
     const name = event.target.type === 'checkbox' ? 'wireframe' : event.target.name;
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     this.setState({
-      [name]: value,
-      subdivisions: sliderValue
+      [name]: value
     });
+    // Truthy/falsy
+    if (slider_value || slider_value === 0) {
+      this.setState({
+        [id]: slider_value
+      });
+    }
   }
 
   render() {
@@ -128,6 +126,9 @@ class App extends Component {
               <List>
                 <FunctionList
                   subdivisions={this.state.subdivisions}
+                  adjacent_weight={this.state.adjacent_weight}
+                  edge_point_weight={this.state.edge_point_weight}
+                  connecting_edges_weight={this.state.connecting_edges_weight}
                   onChange={this.handleChange}
                 />
               </List>
@@ -146,7 +147,14 @@ class App extends Component {
           />
 
           <TopAppBarFixedAdjust>
-            <Scene geometry={this.state.geometry} subdivisions={this.state.subdivisions} wireframe={this.state.wireframe}/>
+            <Scene
+              geometry={this.state.geometry}
+              subdivisions={this.state.subdivisions}
+              adjacent_weight={this.state.adjacent_weight}
+              edge_point_weight={this.state.edge_point_weight}
+              connecting_edges_weight={this.state.connecting_edges_weight}
+              wireframe={this.state.wireframe}
+            />
           </TopAppBarFixedAdjust>
         </DrawerAppContent>
       </div>

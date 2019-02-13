@@ -18,8 +18,11 @@ import {
 // ------------------------------------------------- //
 
 class SubdivisionModifier {
-  constructor(subdivisions) {
+  constructor(subdivisions, adjacent_weight, edge_point_weight, connecting_edges_weight) {
     this.subdivisions = (subdivisions === undefined) ? 1 : subdivisions;
+    this.adjacent_weight = adjacent_weight;
+    this.edge_point_weight = edge_point_weight;
+    this.connecting_edges_weight = connecting_edges_weight;
   }
 }
 
@@ -40,7 +43,7 @@ SubdivisionModifier.prototype.modify = function(geometry) {
 // ------------------------------------------------- //
 
 // The big boy function that executes our algorithm.
-SubdivisionModifier.prototype.subdivide = (geometry) => {
+SubdivisionModifier.prototype.subdivide = function(geometry) {
 
   const sourceVertices = geometry.vertices;
   const sourceFaces = geometry.faces;
@@ -69,8 +72,8 @@ SubdivisionModifier.prototype.subdivide = (geometry) => {
   let oppositePoint;
   let newEdgePoint;
 
-  const adjacentVertexWeight = 1 / 8;
-  const edgeVertexWeight = 3 / 8;
+  const adjacentVertexWeight = this.adjacent_weight;
+  const edgeVertexWeight = this.edge_point_weight;
 
   // Keep track of edge/faces of edge.
   let currentEdge;
@@ -123,7 +126,7 @@ SubdivisionModifier.prototype.subdivide = (geometry) => {
     oldVertex = sourceVertices[i];
     // find all connecting edges (using lookupTable)
     connectingEdges = sourceVerticesRelationships[i].edges;
-    const numberOfConnectingEdges = connectingEdges.length;
+    const numberOfConnectingEdges = this.connecting_edges_weight;
     // Loop's original beta formula
     // beta = 1 / n * ( 5/8 - Math.pow( 3/8 + 1/4 * Math.cos( 2 * Math. PI / n ), 2) );
     beta = 3 / (8 * numberOfConnectingEdges);

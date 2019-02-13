@@ -18,19 +18,21 @@ class FunctionList extends Component {
   render () {
     // function options for slider
     const functions = [
-      {name:'Subdivisions', value:this.props.subdivisions, max:5, step:1},
-      {name:'Adjacent Weight', value:1, max:1, step:null},
-      {name:'Edge-Point Weight', value:1, max:1, step:null},
-      {name:'Connecting Edges Weight',value:1,  max:10, step:1}
+      {label:'Subdivisions', name:'subdivisions', value:this.props.subdivisions, min:0, max:5, step:1},
+      {label:'Adjacent Weight', name:'adjacent_weight', value:this.props.adjacent_weight, min:0, max:1, step:null},
+      {label:'Edge-Point Weight', name:'edge_point_weight', value:this.props.edge_point_weight, min:0, max:1, step:null},
+      {label:'Connecting Edges Weight', name:'connecting_edges_weight', value:this.props.connecting_edges_weight, min:1, max:7, step:1}
     ];
     // Passing Props to generate list
     const functions_list = functions.map(f => {
       return (
         <Slider_
           key={f.name}
+          label={f.label}
           name={f.name}
           value={f.value}
           onChange={this.props.onChange}
+          min={f.min}
           max={f.max}
           step={f.step}
         />

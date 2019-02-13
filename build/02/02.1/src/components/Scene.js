@@ -118,10 +118,7 @@ class Scene extends Component {
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props.wireframe !== prevProps.wireframe) {
-      shape.material.wireframe = this.props.wireframe
-    }
-    if (this.props.geometry !== prevProps.geometry || this.props.subdivisions !== prevProps.subdivisions) {
+    if (this.props !== prevProps) {
       // When radio shape changes -> remove + replace
       scene.remove(shape);
       shape.geometry.dispose();
@@ -129,8 +126,22 @@ class Scene extends Component {
       //
       geometry = this.getGeometry(1);
       shape = this.generateSubdivision(geometry);
+      shape.material.wireframe = this.props.wireframe
       scene.add(shape);
     }
+    // if (this.props.wireframe !== prevProps.wireframe) {
+    //   shape.material.wireframe = this.props.wireframe
+    // }
+    // if (this.props.geometry !== prevProps.geometry || this.props.subdivisions !== prevProps.subdivisions) {
+    //   // When radio shape changes -> remove + replace
+    //   scene.remove(shape);
+    //   shape.geometry.dispose();
+    //   shape.material.dispose();
+    //   //
+    //   geometry = this.getGeometry(1);
+    //   shape = this.generateSubdivision(geometry);
+    //   scene.add(shape);
+    // }
   }
 
   componentWillUnmount() {
@@ -227,9 +238,13 @@ class Scene extends Component {
 
   // Pass geometry to be modified then return mesh to be added to the scene
   generateSubdivision = (geometry) => {
-
     // Invoke modifier
-    const modifier = new SubdivisionModifier(this.props.subdivisions);
+    const modifier = new SubdivisionModifier(
+      this.props.subdivisions,
+      this.props.adjacent_weight,
+      this.props.edge_point_weight,
+      this.props.connecting_edges_weight
+    );
     // Create material
     const material = new THREE.MeshPhongMaterial({wireframe: this.props.wireframe});
     material.color.setHex(0xff0266);
