@@ -13,10 +13,10 @@ import { ListItem, ListItemText, ListItemMeta } from '@material/react-list';
 class Radio_ extends Component {
   render () {
     return (
-      <ListItem>
+      <ListItem className='drawer-list-item'>
         <ListItemText primaryText={this.props.name} />
         <ListItemMeta meta=
-          <Radio wrapperClasses='mdc-list-item__meta'>
+          <Radio className='radio-alternate' wrapperClasses='mdc-list-item__meta'>
             <NativeRadioControl
               name='geometry'
               value={this.props.name}

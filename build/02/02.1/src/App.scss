@@ -40,8 +40,10 @@
 @import './style-overrides/react-top-app-bar-overrides';
 // Checkbox
 @import '@material/react-checkbox/index.scss';
+@import './style-overrides/react-checkbox-overrides';
 // Radio
 @import '@material/react-radio/index.scss';
+@import './style-overrides/react-radio-overrides';
 // Card
 @import '@material/react-card/index.scss';
 // Text field
@@ -67,6 +69,26 @@
   overflow: auto;
 }
 
+// Material-UI framework not MDC -> Slider
+// Only use !important on page-specific CSS that overrides foreign CSS (from external libraries, like Bootstrap or normalize.css).
+// https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity
+.drawer-list-item {
+  margin: 0em 2em !important;
+}
+.drawer-slider {
+  margin: -0.8em 2em 0em 2em !important;
+}
+.drawer-slider-material {
+  background-color: $blue !important;
+}
+
+.drawer-divider {
+  margin: 1.5em 0em 1.5em 0em !important;
+}
+
+.drawer-title {
+  margin: 0.2em 1em 1em 1em !important;
+}
 // ------------------------------------------------- //
 
 // material-ui slider

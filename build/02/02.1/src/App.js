@@ -10,7 +10,7 @@
 
 import React, { Component } from 'react';
 // Material Design Components
-// import {Cell, Grid, Row} from '@material/react-layout-grid';
+import {Cell, Grid, Row} from '@material/react-layout-grid';
 // import {
 //   Body1,
 //   Body2,
@@ -58,12 +58,12 @@ class App extends Component {
     this.state = {
       drawerOpen: true,
       // For the Scene
-      geometry: 'Octahedron',
+      geometry: 'Cube',
       wireframe: false,
       subdivisions: 0,
       adjacent_weight: 0.125,
       edge_point_weight: 0.375,
-      connecting_edges_weight: 4
+      connecting_edges_weight: 5
     };
     // This binding is necessary to make `this` work in the callback
     this.toggleDrawer = this.toggleDrawer.bind(this);
@@ -83,14 +83,6 @@ class App extends Component {
       This does not appply to the other targets as they are <input>
       See https://material-ui.com/lab/slider/
     */
-    // let name;
-    // switch (event.target.name) {
-    //   case undefined:
-    //     name = 'subdivisions';
-    //     break;
-    //   default:
-    //     name = event.target.name;
-    // }
     const id = event.target.id;
     const name = event.target.type === 'checkbox' ? 'wireframe' : event.target.name;
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -113,17 +105,21 @@ class App extends Component {
           dismissible={true}
           open={this.state.drawerOpen}
         >
+          <DrawerHeader className='drawer-title'>
+            <DrawerTitle tag='h2'>Menu</DrawerTitle>
+          </DrawerHeader>
+
           <DrawerContent>
             <ListGroup>
-              <List>
+              <List nonInteractive={true}>
                 <GeometryList
                   geometry={this.state.geometry}
                   wireframe={this.state.wireframe}
                   onChange={this.handleChange}
                 />
               </List>
-              <ListDivider />
-              <List>
+              <ListDivider className='drawer-divider'/>
+              <List nonInteractive={true}>
                 <FunctionList
                   subdivisions={this.state.subdivisions}
                   adjacent_weight={this.state.adjacent_weight}

@@ -51,7 +51,7 @@ class Slider_ extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <ListItem>
+        <ListItem className='drawer-list-item'>
           <ListItemText primaryText={this.props.label} />
           <ListItemMeta meta={`${this.props.value}`} />
           {/*
@@ -66,8 +66,8 @@ class Slider_ extends React.Component {
           />
           */}
         </ListItem>
-        <ListItem id={this.props.name}>
-          <Slider
+        <ListItem id={this.props.name} className='drawer-slider'>
+          <Slider classes={{thumb: 'drawer-slider-material', trackBefore: 'drawer-slider-material'}}
             min={this.props.min}
             max={this.props.max}
             step={this.props.step}

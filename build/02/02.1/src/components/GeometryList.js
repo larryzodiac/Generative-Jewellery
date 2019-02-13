@@ -50,10 +50,11 @@ class GeometryList extends Component {
     return (
       <React.Fragment>
         {geometries_list}
-        <ListItem>
+        <ListItem className='drawer-list-item'>
           <ListItemText primaryText='Wireframe' />
           <ListItemMeta meta=
             <Checkbox
+              className='checkbox-alternate'
               name='wireframe'
               checked={this.state.checked}
               value={this.state.checked}
