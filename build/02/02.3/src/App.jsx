@@ -5,11 +5,11 @@
 
 import React, { Component } from 'react';
 // Material Design Components
-import { Cell, Grid, Row } from '@material/react-layout-grid';
 
 // ------------------------------------------------- //
 
 // My Components
+import AppBar from './components/AppBar';
 
 // ------------------------------------------------- //
 
@@ -17,17 +17,19 @@ import './App.scss';
 
 // ------------------------------------------------- //
 
-// Most of our material components will be compiled here alongside our canvas... I hope
-class App extends Component {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     return (
-      <Grid>Hello</Grid>
+      <React.Fragment>
+        <AppBar />
+      </React.Fragment>
     );
   }
 }
-
-// ------------------------------------------------- //
-
-export default App;
 
 // ------------------------------------------------- //
