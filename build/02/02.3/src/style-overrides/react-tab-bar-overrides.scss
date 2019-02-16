@@ -1,0 +1,10 @@
+@import "@material/tab-bar/mixins";
+@import "colours";
+
+.tab-bar-alternate {
+  @include mdc-tab-bar-width(30em);
+}
+
+.mdc-tab-scroller__scroll-area--scroll {
+  overflow-x: hidden !important;
+}

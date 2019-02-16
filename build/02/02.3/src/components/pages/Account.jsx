@@ -1,24 +1,21 @@
 // ------------------------------------------------- //
 // Evan MacHale - N00150552
-// 15.02.19
+// 16.02.19
+// Account page
 // ------------------------------------------------- //
 
 import React, { Component } from 'react';
 // Material Design Components
+import { TopAppBarFixedAdjust } from '@material/react-top-app-bar';
 
 // ------------------------------------------------- //
 
-// My Page Components
-import Playground from './components/pages/Playground';
-// import Account from './components/pages/Account';
+// My Components
+import AppBar from '../AppBar';
 
 // ------------------------------------------------- //
 
-import './App.scss';
-
-// ------------------------------------------------- //
-
-class App extends Component {
+class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -27,7 +24,8 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Playground />
+        <AppBar />
+        <TopAppBarFixedAdjust><p>Account content</p></TopAppBarFixedAdjust>
       </React.Fragment>
     );
   }
@@ -35,6 +33,6 @@ class App extends Component {
 
 // ------------------------------------------------- //
 
-export default App;
+export default Account;
 
 // ------------------------------------------------- //
