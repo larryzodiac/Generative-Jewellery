@@ -45,16 +45,15 @@ class AppBar extends Component {
     return (
       <React.Fragment>
         <TopAppBar
-          className="top-app-bar-alternate"
-          dense
           fixed
+          className="top-app-bar-alternate"
           navigationIcon={menu}
           actionItems={[
             <Tab
               activeIndex={activeIndex}
               handleActiveIndexUpdate={this.handleActiveIndexUpdate}
             />,
-            <Button>LOGOUT</Button>]}
+            <Button className="button-logout">LOGOUT</Button>]}
         />
       </React.Fragment>
     );

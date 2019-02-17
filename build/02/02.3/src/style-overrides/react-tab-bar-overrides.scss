@@ -3,6 +3,13 @@
 
 .tab-bar-alternate {
   @include mdc-tab-bar-width(30em);
+  // position: absolute !important;
+  // margin-left: auto !important;
+  margin-right: 75% !important;
+}
+
+.mdc-tab {
+  height: 64px !important;
 }
 
 .mdc-tab-scroller__scroll-area--scroll {

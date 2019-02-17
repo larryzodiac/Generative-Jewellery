@@ -44,4 +44,13 @@
   overflow: auto;
 }
 
+.top-app-bar-fix-adjust {
+  display: flex;
+  width: 100%;
+}
+
+.mdc-drawer--dismissible {
+  top: auto;
+}
+
 // ------------------------------------------------- //

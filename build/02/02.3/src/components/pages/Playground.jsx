@@ -11,8 +11,6 @@ import React, { Component } from 'react';
 import Drawer, {
   DrawerAppContent,
   DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
 } from '@material/react-drawer';
 import { TopAppBarFixedAdjust } from '@material/react-top-app-bar';
 // import List, {
@@ -43,29 +41,49 @@ class Playground extends Component {
 
     return (
       <div className="drawer-container">
-        <Drawer
-          dismissible
-          open={drawerOpen}
-        >
-          <DrawerHeader>
-            <DrawerTitle tag="h2">Menu</DrawerTitle>
-          </DrawerHeader>
-          <DrawerContent />
-        </Drawer>
+        {/* https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md */}
+        <AppBar
+          icon
+          onClick={this.toggleDrawer}
+        />
 
-        <DrawerAppContent className="drawer-app-content">
-          {/* https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md */}
-          <AppBar
-            icon
-            onClick={this.toggleDrawer}
-          />
-          <TopAppBarFixedAdjust><p>Playground content</p></TopAppBarFixedAdjust>
-        </DrawerAppContent>
+        <TopAppBarFixedAdjust className="top-app-bar-fix-adjust">
+          <Drawer
+            className="drawer-alternate"
+            dismissible
+            open={drawerOpen}
+          >
+            <DrawerContent>Hello</DrawerContent>
+          </Drawer>
 
+          <DrawerAppContent className="drawer-app-content"><p>Playground content</p></DrawerAppContent>
+        </TopAppBarFixedAdjust>
       </div>
     );
   }
 }
+
+// <div className="drawer-container">
+//   <Drawer
+//     dismissible
+//     open={drawerOpen}
+//   >
+//     <DrawerHeader>
+//       <DrawerTitle tag="h2">Menu</DrawerTitle>
+//     </DrawerHeader>
+//     <DrawerContent />
+//   </Drawer>
+//
+//   <DrawerAppContent className="drawer-app-content">
+//     {/* https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md */}
+//     <AppBar
+//       icon
+//       onClick={this.toggleDrawer}
+//     />
+//     <TopAppBarFixedAdjust><p>Playground content</p></TopAppBarFixedAdjust>
+//   </DrawerAppContent>
+//
+// </div>
 
 // ------------------------------------------------- //
 
