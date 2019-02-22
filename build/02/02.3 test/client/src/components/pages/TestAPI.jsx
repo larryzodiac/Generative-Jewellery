@@ -1,6 +1,7 @@
 // ------------------------------------------------- //
 // Evan MacHale - N00150552
-// 15.02.19
+// 17.02.19
+// Using this file to learn MERN
 // ------------------------------------------------- //
 
 import React, { Component } from 'react';
@@ -8,17 +9,7 @@ import React, { Component } from 'react';
 
 // ------------------------------------------------- //
 
-// My Page Components
-import Playground from './components/pages/Playground';
-// import Account from './components/pages/Account';
-
-// ------------------------------------------------- //
-
-import './App.scss';
-
-// ------------------------------------------------- //
-
-class App extends Component {
+class TestAPI extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -27,7 +18,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Playground />
+        <p>Ready to go !</p>
       </React.Fragment>
     );
   }
@@ -35,6 +26,6 @@ class App extends Component {
 
 // ------------------------------------------------- //
 
-export default App;
+export default TestAPI;
 
 // ------------------------------------------------- //
