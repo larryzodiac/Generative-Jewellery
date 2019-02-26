@@ -14,6 +14,8 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
 import SubdivisionModifier from './algorithm/loop';
+import { saveAs } from 'file-saver';
+const exportSTL = require('threejs-export-stl');
 // import * as OrbitControls from 'three-orbit-controls'; // Research later, no time
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -32,8 +34,10 @@ class Scene extends Component {
   // If mounted successfully
   componentDidMount() { // Runtime
 
-    const width = this.mount.clientWidth;
-    const height = this.mount.clientHeight;
+    // const width = this.mount.clientWidth;
+    // const height = this.mount.clientHeight; // Kinda Bugy
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xffde03);
@@ -128,6 +132,9 @@ class Scene extends Component {
       shape = this.generateSubdivision(geometry);
       shape.material.wireframe = this.props.wireframe
       scene.add(shape);
+    }
+    if (this.props.exportClicked !== prevProps.exportClicked) {
+      this.export(shape.geometry);
     }
     // if (this.props.wireframe !== prevProps.wireframe) {
     //   shape.material.wireframe = this.props.wireframe
@@ -274,6 +281,12 @@ class Scene extends Component {
     mesh.castShadow = true;
     mesh.receiveShadow = false;
     return mesh;
+  }
+
+  export = (geometry) => {
+    const buffer = exportSTL.fromGeometry(geometry);
+    const blob = new Blob([buffer], { type: exportSTL.mimeType });
+    saveAs(blob, 'shape.stl');
   }
 
   // ------------------------------------------------- //

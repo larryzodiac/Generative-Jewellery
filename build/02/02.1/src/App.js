@@ -13,6 +13,8 @@ import React, { Component } from 'react';
 import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
 import Drawer, {DrawerAppContent, DrawerContent, DrawerHeader, DrawerTitle} from '@material/react-drawer';
 import List, { ListGroup, ListDivider } from '@material/react-list';
+import Button from '@material/react-button';
+import { ListItem } from '@material/react-list';
 
 /*
   Problem loading Icons via JavaScript
@@ -41,6 +43,7 @@ class App extends Component {
     super(props);
     this.state = {
       drawerOpen: true,
+      exportClicked: false,
       // For the Scene
       geometry: 'Cube',
       wireframe: false,
@@ -51,6 +54,7 @@ class App extends Component {
     };
     // This binding is necessary to make `this` work in the callback
     this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   toggleDrawer = () => {
@@ -79,6 +83,12 @@ class App extends Component {
         [id]: slider_value
       });
     }
+  }
+
+  handleClick = () => {
+    this.setState(prevState => ({
+      exportClicked: prevState.exportClicked + 1
+    }));
   }
 
   render() {
@@ -112,6 +122,18 @@ class App extends Component {
                   onChange={this.handleChange}
                 />
               </List>
+              <ListDivider className='drawer-divider'/>
+              <List nonInteractive={true}>
+                <ListItem className='drawer-list-item'>
+                  <Button
+                    className='button-alternate-clear'
+                    outlined
+                    onClick={this.handleClick}
+                  >
+                    Download .stl
+                  </Button>
+                </ListItem>
+              </List>
             </ListGroup>
           </DrawerContent>
         </Drawer>
@@ -134,6 +156,7 @@ class App extends Component {
               edge_point_weight={this.state.edge_point_weight}
               connecting_edges_weight={this.state.connecting_edges_weight}
               wireframe={this.state.wireframe}
+              exportClicked={this.state.exportClicked}
             />
           </TopAppBarFixedAdjust>
         </DrawerAppContent>
