@@ -55,6 +55,8 @@
 // List
 @import '@material/react-list/index.scss';
 @import './style-overrides/react-list-overrides';
+// Slider
+@import "@material/slider/mdc-slider";
 
 // ------------------------------------------------- //
 
@@ -78,6 +80,9 @@
 }
 .drawer-slider {
   margin: -0.8em 2em 0em 2em !important;
+}
+.slider-div {
+  // width: 100% !important;
 }
 .drawer-slider-material {
   background-color: $blue !important;
